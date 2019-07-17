@@ -796,6 +796,7 @@ public abstract class PcodeCompile {
 			case CPUI_FLOAT_NOTEQUAL:
 			case CPUI_FLOAT_LESS:
 			case CPUI_FLOAT_LESSEQUAL:
+			case CPUI_FLOAT_INF:
 			case CPUI_FLOAT_NAN:
 			case CPUI_BOOL_NEGATE:
 			case CPUI_BOOL_XOR:
@@ -953,6 +954,9 @@ public abstract class PcodeCompile {
 		}
 		if ("abs".equals(name) && hasOperands(1, operands, location, name)) {
 			return createOp(location, OpCode.CPUI_FLOAT_ABS, r);
+		}
+		if ("inf".equals(name) && hasOperands(1, operands, location, name)) {
+			return createOp(location, OpCode.CPUI_FLOAT_INF, r);
 		}
 		if ("nan".equals(name) && hasOperands(1, operands, location, name)) {
 			return createOp(location, OpCode.CPUI_FLOAT_NAN, r);

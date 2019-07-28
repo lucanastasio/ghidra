@@ -624,7 +624,7 @@ public:
   TypeSpacebase(AddrSpace *id,const Address &frame,Architecture *g)
     : Datatype(0,TYPE_SPACEBASE), localframe(frame) { spaceid = id; glb = g; }
   Scope *getMap(void) const;	///< Get the symbol table indexed by \b this
-  Address getAddress(uintb off,int4 sz,const Address &point) const;	///< Construct an Address given an offset
+  Address getAddress(uintb off,int4 sz,const Address &point,bool ptrCheck) const;	///< Construct an Address given an offset
   virtual Datatype *getSubType(uintb off,uintb *newoff) const;
   virtual Datatype *nearestArrayedComponentForward(uintb off,uintb *newoff,int4 *elSize) const;
   virtual Datatype *nearestArrayedComponentBackward(uintb off,uintb *newoff,int4 *elSize) const;

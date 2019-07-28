@@ -991,7 +991,7 @@ void PrintC::opPtrsub(const PcodeOp *op)
     }
     if (symbol == (Symbol *)0) {
       TypeSpacebase *sb = (TypeSpacebase *)ct;
-      Address addr = sb->getAddress(in1const,in0->getSize(),op->getAddr());
+      Address addr = sb->getAddress(in1const,in0->getSize(),op->getAddr(),op->getIn(1)->isPtrCheck());
       pushUnnamedLocation(addr,(Varnode *)0,op);
     }
     else {

@@ -2617,10 +2617,11 @@ int4 TypeSpacebase::compareDependency(const Datatype &op) const
 /// \param sz is the size of offset (as a pointer)
 /// \param point is a "context" reference for the request
 /// \return the referred to Address
-Address TypeSpacebase::getAddress(uintb off,int4 sz,const Address &point) const
+Address TypeSpacebase::getAddress(uintb off,int4 sz,const Address &point,bool ptrCheck) const
 
 {
   uintb fullEncoding;
+  if (ptrCheck) return Address(spaceid,off);
   // Currently a constant off of a global spacebase must be a full pointer encoding
   if (localframe.isInvalid())
     sz = -1;	// Set size to -1 to guarantee that full encoding recovery isn't launched

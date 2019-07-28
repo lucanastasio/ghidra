@@ -1081,7 +1081,7 @@ Symbol *Funcdata::linkSymbolReference(Varnode *vn)
   if (sb->getMetatype() != TYPE_SPACEBASE)
       return (Symbol *)0;
   Scope *scope = sb->getMap();
-  Address addr = sb->getAddress(vn->getOffset(),in0->getSize(),op->getAddr());
+  Address addr = sb->getAddress(vn->getOffset(),in0->getSize(),op->getAddr(),vn->isPtrCheck());
   if (addr.isInvalid())
     throw LowlevelError("Unable to generate proper address from spacebase");
   SymbolEntry *entry = scope->queryContainer(addr,1,Address());

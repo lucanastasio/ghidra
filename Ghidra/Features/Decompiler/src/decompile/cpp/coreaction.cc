@@ -1073,6 +1073,9 @@ SymbolEntry *ActionConstantPtr::isPointer(AddrSpace *spc,Varnode *vn,PcodeOp *op
     case CPUI_INT_ADD:
       outvn = op->getOut();
       if (outvn->getTypeDefFacing()->getMetatype()==TYPE_PTR) {
+        PcodeOp* outop = outvn->loneDescend();
+        if (outop != (PcodeOp*)0 && //if part of a segment op cannot process here!
+          outop->code() == CPUI_SEGMENTOP) return (SymbolEntry*)0;
 	// Is there another pointer base in this expression
 	if (op->getIn(1-slot)->getTypeReadFacing(op)->getMetatype()==TYPE_PTR)
 	  return (SymbolEntry *)0; // If so, we are not a pointer

@@ -150,7 +150,7 @@ public class CoffBinaryAnalysisCommand extends FlatProgramAPI
 	private void processStrings(CoffFileHeader header) throws Exception {
 		monitor.setMessage("Processing strings...");
 		Address start = toAddr(header.getSymbolTablePointer() +
-			(header.getSymbolTableEntries() * CoffConstants.SYMBOL_SIZEOF));
+			header.getSymbolTableLength());
 		Address address = start;
 		createData(address, new DWordDataType());
 		createLabel(address, "Number_of_strings", true);
@@ -168,7 +168,7 @@ public class CoffBinaryAnalysisCommand extends FlatProgramAPI
 	private void processSymbols(CoffFileHeader header) throws Exception {
 		monitor.setMessage("Processing symbols...");
 		Address start = toAddr(header.getSymbolTablePointer());
-		long length = header.getSymbolTableEntries() * CoffConstants.SYMBOL_SIZEOF;
+		long length = header.getSymbolTableLength();
 		Address address = start;
 		List<CoffSymbol> symbols = header.getSymbols();
 		for (int i = 0; i < symbols.size(); ++i) {
@@ -229,7 +229,7 @@ public class CoffBinaryAnalysisCommand extends FlatProgramAPI
 			return;
 		}
 		Address start = toAddr(section.getPointerToLineNumbers());
-		long length = section.getLineNumberCount() * CoffLineNumber.SIZEOF;
+		long length = section.getLineNumberLength();
 		Address address = start;
 		List<CoffLineNumber> lineNumbers = section.getLineNumbers();
 		for (CoffLineNumber lineNumber : lineNumbers) {

@@ -213,6 +213,14 @@ public class CoffSectionHeader implements StructConverter {
 	}
 
 	/**
+	 * Returns the length of line number entries for this section.
+	 * @return the length of line number entries for this section
+	 */
+	public int getLineNumberLength() {
+		return s_nlnno * CoffConstants.LINENO_SIZEOF;
+	}
+
+	/**
 	 * Returns the flags for this section.
 	 * @return the flags for this section
 	 */

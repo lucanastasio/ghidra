@@ -25,8 +25,11 @@ import ghidra.util.exception.DuplicateNameException;
 
 public class CoffSymbolAuxFilename implements CoffSymbolAux {
 
-	private byte [] filename;
-	private byte [] unused;
+	protected byte [] filename;
+	protected byte [] unused;
+
+	protected CoffSymbolAuxFilename() {
+	}
 
 	CoffSymbolAuxFilename(BinaryReader reader) throws IOException {
 		filename = reader.readNextByteArray(CoffConstants.FILE_NAME_LENGTH);

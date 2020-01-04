@@ -93,7 +93,7 @@ struct FieldQuality {
   uint4 high;		///< The most significant bit of the field within the token
   bool signext;		///< \b true if the field's value is signed
   bool flow;		///< \b true if the context \b flows for this field.
-  bool hex;		///< \b true if the field value is displayed in hex
+  uint4 base;		///< Base of number (2, 8, 10 or 16)
   FieldQuality(string *nm,uintb *l,uintb *h);	///< Constructor
 };
 

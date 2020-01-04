@@ -73,7 +73,7 @@ FieldQuality::FieldQuality(string *nm,uintb *l,uintb *h)
   high = *h;
   signext = false;
   flow = true;
-  hex = true;
+  base = 16;
   delete nm;
   delete l;
   delete h;
@@ -1885,7 +1885,7 @@ int4 SleighCompile::calcContextVarLayout(int4 start,int4 sz,int4 numbits)
       qual = contexttable[i+start].qual;
       uint4 l = qual->low - min + low;
       uint4 h = numbits-1-(max-qual->high);
-      ContextField *field = new ContextField(qual->signext,l,h);
+      ContextField *field = new ContextField(qual->signext,l,h,qual->base);
       addSymbol(new ContextSymbol(qual->name,field,sym,qual->low,qual->high,qual->flow));
     }
     
@@ -2501,7 +2501,7 @@ void SleighCompile::addTokenField(TokenSymbol *sym,FieldQuality *qual)
     s << "Field '" << qual->name << "' high must be less than token size";
     reportError(getCurrentLocation(), s.str());
   }
-  TokenField *field = new TokenField(sym->getToken(),qual->signext,qual->low,qual->high);
+  TokenField *field = new TokenField(sym->getToken(),qual->signext,qual->low,qual->high,qual->base);
   addSymbol(new ValueSymbol(qual->name,field));
   delete qual;
 }

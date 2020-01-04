@@ -15,7 +15,7 @@
  */
 #include "sleighbase.hh"
 
-const int4 SleighBase::SLA_FORMAT_VERSION = 3;
+const int4 SleighBase::SLA_FORMAT_VERSION = 4;
 
 const uint4 SleighBase::MAX_UNIQUE_SIZE = 128;
 

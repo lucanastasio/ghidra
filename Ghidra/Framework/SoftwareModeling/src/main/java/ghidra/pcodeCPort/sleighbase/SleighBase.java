@@ -38,7 +38,7 @@ public abstract class SleighBase extends Translate implements NamedSymbolProvide
 	 * Note: The values of {@link #SLA_FORMAT_VERSION} and {@link #MAX_UNIQUE_SIZE} 
 	 * must match the corresponding values defined by sleighbase.cc
 	 */
-	public static final int SLA_FORMAT_VERSION = 3;
+	public static final int SLA_FORMAT_VERSION = 4;
 
 	public static final long MAX_UNIQUE_SIZE = 128;  //Maximum size of a varnode in the unique space.  
 													//Should match value in sleighbase.cc

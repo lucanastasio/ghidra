@@ -933,7 +933,7 @@ public class SleighCompile extends SleighBase {
 			reportError(location, "Field '" + qual.name + "' high must be less than token size");
 		}
 		TokenField field =
-			new TokenField(location, sym.getToken(), qual.signext, qual.low, qual.high);
+			new TokenField(location, sym.getToken(), qual.signext, qual.low, qual.high, qual.base);
 		addSymbol(new ValueSymbol(location, qual.name, field));
 	}
 

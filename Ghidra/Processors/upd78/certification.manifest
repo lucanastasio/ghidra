@@ -1,0 +1,11 @@
+##VERSION: 2.0
+##MODULE IP: Apache License 2.0
+LICENSE.txt||GHIDRA||||END|
+Module.manifest||GHIDRA||||END|
+data/build.xml||GHIDRA||||END|
+data/languages/upd78.cspec||Apache License 2.0||||END|
+data/languages/upd78.ldefs||Apache License 2.0||||END|
+data/languages/upd78.pspec||Apache License 2.0||||END|
+data/languages/upd78.slaspec||Apache License 2.0||||END|
+data/manuals/87AD_series_user_manual.pdf||GHIDRA||||END|
+data/sleighArgs.txt||GHIDRA||||END|

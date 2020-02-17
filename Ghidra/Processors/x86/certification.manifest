@@ -55,3 +55,5 @@ data/patterns/x86delphi_patterns.xml||GHIDRA||||END|
 data/patterns/x86gcc_patterns.xml||GHIDRA||||END|
 data/patterns/x86win_patterns.xml||GHIDRA||||END|
 data/patterns/x86win_prepatterns.xml||GHIDRA||||END|
+src/main/java/ghidra/app/plugin/core/analysis/DOSInterruptAnalyzer.java||GHIDRA||||END|
+src/main/java/ghidra/app/plugin/core/analysis/InterruptAnalyzer.java||GHIDRA||||END|

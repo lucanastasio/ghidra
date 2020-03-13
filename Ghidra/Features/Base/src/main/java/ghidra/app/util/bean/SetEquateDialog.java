@@ -589,7 +589,6 @@ public class SetEquateDialog extends DialogComponentProvider {
 		private Enum enoom;
 
 		EquateRowObject(String name, Enum enoom) {// Equate based off enum
-			long value = scalar.getValue();
 			if (enoom == null) {
 				return;
 			}
@@ -598,10 +597,13 @@ public class SetEquateDialog extends DialogComponentProvider {
 			this.entryName = name;
 			this.dataTypeUUID = enoom.getUniversalID();
 			this.path = getFullPath(enoom);
-			String formattedEquateName = EquateManager.formatNameForEquate(dataTypeUUID, value);
-			this.equate = equateTable.getEquate(formattedEquateName);
-			if (equate != null) {
-				this.refCount = equate.getReferenceCount();
+			this.refCount = 0;
+			for (long value : new long[] { scalar.getUnsignedValue(), scalar.getSignedValue() }) {
+				String formattedEquateName = EquateManager.formatNameForEquate(dataTypeUUID, value);
+				this.equate = equateTable.getEquate(formattedEquateName);
+				if (equate != null) {
+					this.refCount += equate.getReferenceCount();
+				}
 			}
 		}
 

@@ -1010,7 +1010,7 @@ public class CodeUnitFormat {
 		while (equateItr.hasNext()) {
 			Equate equate = equateItr.next();
 			if (equate.getValue() == scalar.getSignedValue() ||
-				equate.getValue() == scalar.getValue()) {
+				equate.getValue() == scalar.getUnsignedValue()) {
 				return equate;
 			}
 		}

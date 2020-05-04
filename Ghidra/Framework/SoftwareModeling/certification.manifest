@@ -49,6 +49,8 @@ src/test/resources/empty.input||GHIDRA||reviewed||END|
 src/test/resources/empty.output||GHIDRA||reviewed||END|
 src/test/resources/expression.input||GHIDRA||reviewed||END|
 src/test/resources/expression.output||GHIDRA||reviewed||END|
+src/test/resources/ifdef.input||GHIDRA||||END|
+src/test/resources/ifdef.output||GHIDRA||||END|
 src/test/resources/include.input||GHIDRA||reviewed||END|
 src/test/resources/include.output||GHIDRA||reviewed||END|
 src/test/resources/includes/actual.inc||GHIDRA||||END|

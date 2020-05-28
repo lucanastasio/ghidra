@@ -37,10 +37,10 @@ public class ModuleReferenceTable {
      * @param count the count of modules referenced
      * @param imp the imported name table
      */
-	ModuleReferenceTable(BinaryReader reader, short index, short count, ImportedNameTable imp)
+	ModuleReferenceTable(BinaryReader reader, int index, short count, ImportedNameTable imp)
 			throws IOException {
         long oldIndex = reader.getPointerIndex();
-        reader.setPointerIndex(Conv.shortToInt(index));
+        reader.setPointerIndex(index);
 
         offsets = new short[Conv.shortToInt(count)];
         for (short i = 0 ; i < count ; ++i) {

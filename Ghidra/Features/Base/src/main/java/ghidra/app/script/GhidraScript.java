@@ -1644,6 +1644,7 @@ public abstract class GhidraScript extends FlatProgramAPI {
 				"The setBackgroundColor() method can only be used when running headed Ghidra.");
 		}
 
+		start();
 		PluginTool tool = state.getTool();
 		ColorizingService service = tool.getService(ColorizingService.class);
 		if (service == null) {

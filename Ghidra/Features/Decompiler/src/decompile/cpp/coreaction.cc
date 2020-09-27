@@ -5414,6 +5414,7 @@ void ActionDatabase::universalAction(Architecture *conf)
 	actprop->addRule( new RuleOrMultiBool("analysis") );
 	actprop->addRule( new RuleXorSwap("analysis") );
 	actprop->addRule( new RuleLzcountShiftBool("analysis") );
+	actprop->addRule( new RuleLzcntZeroTest("analysis") );
 	actprop->addRule( new RuleSubvarAnd("subvar") );
 	actprop->addRule( new RuleSubvarSubpiece("subvar") );
 	actprop->addRule( new RuleSplitFlow("subvar") );

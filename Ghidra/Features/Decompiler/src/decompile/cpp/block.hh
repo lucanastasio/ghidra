@@ -183,6 +183,7 @@ public:
   virtual FlowBlock *nextFlowAfter(const FlowBlock *bl) const;
   virtual void finalTransform(Funcdata &data) {}	///< Do any structure driven final transforms
   virtual void finalizePrinting(Funcdata &data) const {}	///< Make any final configurations necessary to print the block
+  virtual int4 getBlockDepth(void) {return 0;}		///< Return the depth in code block of \b this
   virtual void encodeHeader(Encoder &encoder) const;	///< Encode basic information as attributes
   virtual void decodeHeader(Decoder &decoder);		///< Decode basic information from element attributes
   virtual void encodeBody(Encoder &encoder) const {}	///< Encode detail about components to a stream
@@ -308,6 +309,8 @@ public:
   virtual FlowBlock *nextFlowAfter(const FlowBlock *bl) const;
   virtual void finalTransform(Funcdata &data);
   virtual void finalizePrinting(Funcdata &data) const;
+  virtual int4 getInnerBlockDepth();					///< Return max depth of child blocks
+  virtual int4 getBlockDepth() {return getInnerBlockDepth()+1;}
   virtual void encodeBody(Encoder &encoder) const;
   virtual void decodeBody(Decoder &decoder);
   void decode(Decoder &decoder);				///< Decode \b this BlockGraph from a stream
@@ -412,6 +415,7 @@ public:
   list<PcodeOp *>::const_iterator beginOp(void) const { return op.begin(); }	///< Return an iterator to the beginning of the PcodeOps
   list<PcodeOp *>::const_iterator endOp(void) const { return op.end(); }	///< Return an iterator to the end of the PcodeOps
   bool emptyOp(void) const { return op.empty(); }		///< Return \b true if \b block contains no operations
+  int4 getOpSize(void);					///< Number of PcodeOps contained in \b this block
   static bool noInterveningStatement(PcodeOp *first,int4 path,PcodeOp *last);
   PcodeOp *findMultiequal(const vector<Varnode *> &varArray);		///< Find MULTIEQUAL with given inputs
   static bool liftVerifyUnroll(vector<Varnode *> &varArray,int4 slot);	///< Verify given Varnodes are defined with same PcodeOp
@@ -514,6 +518,7 @@ public:
   virtual PcodeOp *lastOp(void) const;
   virtual bool negateCondition(bool toporbottom);
   virtual FlowBlock *getSplitPoint(void);
+  virtual int4 getBlockDepth(void);
 };
 
 /// \brief Two conditional blocks combined into one conditional using BOOL_AND or BOOL_OR
@@ -543,6 +548,7 @@ public:
   virtual bool isComplex(void) const { return getBlock(0)->isComplex(); }
   virtual FlowBlock *nextFlowAfter(const FlowBlock *bl) const;
   virtual void encodeHeader(Encoder &encoder) const;
+  virtual int4 getBlockDepth(void);
 };
 
 /// \brief A basic "if" block
@@ -705,6 +711,7 @@ public:
   virtual void emit(PrintLanguage *lng) const { lng->emitBlockSwitch(this); }
   virtual FlowBlock *nextFlowAfter(const FlowBlock *bl) const;
   virtual void finalizePrinting(Funcdata &data) const;
+  virtual int4 getBlockDepth(void);
 };
 
 /// \brief Helper class for resolving cross-references while deserializing BlockGraph objects

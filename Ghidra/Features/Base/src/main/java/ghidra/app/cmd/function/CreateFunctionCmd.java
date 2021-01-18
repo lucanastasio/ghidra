@@ -575,7 +575,7 @@ public class CreateFunctionCmd extends BackgroundCommand {
 				}
 				Reference ref = iter.next();
 				if (ref.getReferenceType().isCall()) {
-					entry = fallFrom;
+					entry = followInstr.getAddress();
 					break;
 				}
 				fallFrom = ref.getFromAddress();

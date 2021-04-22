@@ -95,6 +95,8 @@
 
 #include <iostream>
 #include <string>
+#include <mutex>
+#include <thread>
 
 string Attributes::bogus_uri("http://unused.uri");
 
@@ -183,7 +185,9 @@ extern void print_content(const string &str);	///< Send character data to the Co
 extern int4 convertEntityRef(const string &ref);	///< Convert an XML entity to its equivalent character
 extern int4 convertCharRef(const string &ref);	///< Convert an XML character reference to its equivalent character
 static XmlScan *global_scan;					///< Global reference to the scanner
+static std::mutex global_scan_mutex;
 static ContentHandler *handler;					///< Global reference to the content handler
+static std::mutex handler_mutex;
 
 
 # ifndef YY_CAST
@@ -748,14 +752,14 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   144,   144,   145,   146,   147,   148,   149,   150,   151,
-     153,   154,   155,   156,   157,   158,   159,   160,   161,   162,
-     163,   164,   165,   166,   167,   169,   170,   171,   172,   173,
-     174,   175,   177,   178,   179,   180,   181,   182,   183,   185,
-     186,   187,   188,   189,   190,   191,   193,   194,   196,   197,
-     198,   199,   201,   202,   203,   204,   205,   206,   208,   209,
-     210,   211,   212,   213,   214,   216,   217,   219,   220,   221,
-     222
+       0,   148,   148,   149,   150,   151,   152,   153,   154,   155,
+     157,   158,   159,   160,   161,   162,   163,   164,   165,   166,
+     167,   168,   169,   170,   171,   173,   174,   175,   176,   177,
+     178,   179,   181,   182,   183,   184,   185,   186,   187,   189,
+     190,   191,   192,   193,   194,   195,   197,   198,   200,   201,
+     202,   203,   205,   206,   207,   208,   209,   210,   212,   213,
+     214,   215,   216,   217,   218,   220,   221,   223,   224,   225,
+     226
 };
 #endif
 
@@ -2094,6 +2098,8 @@ int4 xml_parse(istream &i,ContentHandler *hand,int4 dbg)
 #if YYDEBUG
   yydebug = dbg;
 #endif
+  std::lock_guard<std::mutex> global_scan_lock(global_scan_mutex);
+  std::lock_guard<std::mutex> handler_lock(handler_mutex);
   global_scan = new XmlScan(i);
   handler = hand;
   handler->startDocument();

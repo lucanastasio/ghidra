@@ -25,6 +25,7 @@ import ghidra.app.plugin.core.decompile.DecompilerActionContext;
 import ghidra.app.util.HelpTopics;
 import ghidra.framework.plugintool.PluginTool;
 import ghidra.program.model.listing.Function;
+import ghidra.program.model.pcode.EquateSymbol;
 import ghidra.program.model.pcode.HighSymbol;
 import ghidra.program.model.symbol.SourceType;
 import ghidra.util.HelpLocation;
@@ -69,6 +70,9 @@ public class RenameLocalAction extends AbstractDecompilerAction {
 		}
 		HighSymbol highSymbol = tokenAtCursor.getHighSymbol(context.getHighFunction());
 		if (highSymbol == null) {
+			return false;
+		}
+		if (highSymbol instanceof EquateSymbol) {
 			return false;
 		}
 		return !highSymbol.isGlobal();

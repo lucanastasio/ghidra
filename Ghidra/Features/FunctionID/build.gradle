@@ -22,6 +22,7 @@ apply plugin: 'eclipse'
 
 eclipse.project.name = 'Features FunctionID'
 
+ext.xsltproc = "xsltproc --nonet"
 
 dependencies {
 	api project(":Base")
@@ -91,8 +92,8 @@ task buildFidHelpPdf(type: Exec) {
 		cp $installPoint/topics/FunctionID/images/*.png $buildDir/images
 
 		echo '** Building FunctionID.fo **'
-		xsltproc --output $buildDir/fid_withscaling.xml --stringparam profile.condition "withscaling" commonprofile.xsl fid.xml 2>&1
-		xsltproc --output $buildDir/FunctionID.fo fid_pdf.xsl $buildDir/fid_withscaling.xml 2>&1
+		$xsltproc --output $buildDir/fid_withscaling.xml --stringparam profile.condition "withscaling" commonprofile.xsl fid.xml 2>&1
+		$xsltproc --output $buildDir/FunctionID.fo fid_pdf.xsl $buildDir/fid_withscaling.xml 2>&1
 
 		echo '** Building FunctionID.pdf **'
 		fop $buildDir/FunctionID.fo $buildDir/FunctionID.pdf 2>&1
@@ -160,8 +161,8 @@ task buildFidHelpHtml(type: Exec) {
 	rm -f $installPoint/topics/FunctionID/*.html
 
 	echo '** Building html files **'
-	xsltproc --output $buildDir/fid_noscaling.xml --stringparam profile.condition "noscaling" commonprofile.xsl fid.xml 2>&1
-	xsltproc --stringparam base.dir ${installPoint}/topics/FunctionID/ fid_html.xsl $buildDir/fid_noscaling.xml 2>&1
+	$xsltproc --output $buildDir/fid_noscaling.xml --stringparam profile.condition "noscaling" commonprofile.xsl fid.xml 2>&1
+	$xsltproc --stringparam base.dir ${installPoint}/topics/FunctionID/ fid_html.xsl $buildDir/fid_noscaling.xml 2>&1
 	rm ${installPoint}/topics/FunctionID/index.html
 	sed -i -e '/DefaultStyle.css/ { p; sQhref=".*"Qhref="../../shared/languages.css"Q; }' ${installPoint}/topics/FunctionID/*.html
 

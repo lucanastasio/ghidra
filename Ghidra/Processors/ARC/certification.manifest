@@ -1,0 +1,19 @@
+##VERSION: 2.0
+Module.manifest||GHIDRA||||END|
+data/build.xml||GHIDRA||||END|
+data/languages/ARC.ldefs||GHIDRA||||END|
+data/languages/ARC.opinion||GHIDRA||||END|
+data/languages/ARC32.cspec||GHIDRA||||END|
+data/languages/ARC32.dwarf||GHIDRA||||END|
+data/languages/ARC32.pspec||GHIDRA||||END|
+data/languages/ARC32.sinc||GHIDRA||||END|
+data/languages/ARC32_be.slaspec||GHIDRA||||END|
+data/languages/ARC32_le.slaspec||GHIDRA||||END|
+data/languages/ARCompact.cspec||GHIDRA||||END|
+data/languages/ARCompact.dwarf||GHIDRA||||END|
+data/languages/ARCompact.ldefs||GHIDRA||||END|
+data/languages/ARCompact.opinion||GHIDRA||||END|
+data/languages/ARCompact.pspec||GHIDRA||||END|
+data/languages/ARCompact.sla||GHIDRA||||END|
+data/languages/ARCompact.slaspec||GHIDRA||||END|
+src/main/java/ghidra/program/emulation/ARCompactEmulateInstructionStateModifier.java||GHIDRA||||END|

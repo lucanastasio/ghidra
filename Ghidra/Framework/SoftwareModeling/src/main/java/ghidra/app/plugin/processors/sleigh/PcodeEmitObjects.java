@@ -16,6 +16,7 @@
 package ghidra.app.plugin.processors.sleigh;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ghidra.program.model.address.Address;
 import ghidra.program.model.address.AddressSpace;
@@ -64,9 +65,6 @@ public class PcodeEmitObjects extends PcodeEmit {
 		return retop;
 	}
 
-	/* (non-Javadoc)
-	 * @see ghidra.app.plugin.processors.sleigh.PcodeEmit#resolveRelatives()
-	 */
 	@Override
 	public void resolveRelatives() {
 		if (labelref == null) {
@@ -91,9 +89,6 @@ public class PcodeEmitObjects extends PcodeEmit {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see ghidra.app.plugin.processors.sleigh.PcodeEmit#addLabelRef()
-	 */
 	@Override
 	void addLabelRef() {
 		if (labelref == null) {
@@ -102,11 +97,8 @@ public class PcodeEmitObjects extends PcodeEmit {
 		labelref.add(numOps);
 	}
 
-	/* (non-Javadoc)
-	 * @see ghidra.app.plugin.processors.sleigh.PcodeEmit#dump(ghidra.program.model.address.Address, int, ghidra.app.plugin.processors.sleigh.VarnodeData[], int, ghidra.app.plugin.processors.sleigh.VarnodeData)
-	 */
 	@Override
-	void dump(Address instrAddr, int opcode, VarnodeData[] in, int isize, VarnodeData out) {
+	void dump(Address instrAddr, int opcode, List<VarnodeData> in, int isize, VarnodeData out) {
 		int updatedOpcode = checkOverrides(opcode, in);
 		Varnode outvn;
 		if (out != null) {
@@ -120,7 +112,8 @@ public class PcodeEmitObjects extends PcodeEmit {
 		}
 		Varnode[] invn = new Varnode[isize];
 		for (int i = 0; i < isize; ++i) {
-			invn[i] = new Varnode(in[i].space.getAddress(in[i].offset), in[i].size);
+			VarnodeData data = in.get(i);
+			invn[i] = new Varnode(data.space.getAddress(data.offset), data.size);
 		}
 		PcodeOp op = new PcodeOp(instrAddr, oplist.size(), updatedOpcode, invn, outvn);
 		oplist.add(op);

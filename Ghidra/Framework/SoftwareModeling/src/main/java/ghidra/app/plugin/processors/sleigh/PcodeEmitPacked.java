@@ -20,6 +20,7 @@ import static ghidra.program.model.pcode.ElementId.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import ghidra.program.model.address.Address;
 import ghidra.program.model.lang.InstructionContext;
@@ -94,9 +95,6 @@ public class PcodeEmitPacked extends PcodeEmit {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see ghidra.app.plugin.processors.sleigh.PcodeEmit#addLabelRef()
-	 */
 	@Override
 	void addLabelRef() {
 		// We know we need to do patching on a particular input parameter
@@ -111,18 +109,18 @@ public class PcodeEmitPacked extends PcodeEmit {
 	 * Create the LabelRef now that the next element written will be the parameter needing a patch 
 	 */
 	private void addLabelRefDelayed() {
-		int labelIndex = (int) incache[0].offset;
-		int labelSize = incache[0].size;
+		VarnodeData data = incache.get(0);
+		int labelIndex = (int) data.offset;
 		// Force the encoder to write out a maximum length encoding of a long
 		// so that we have space to insert whatever value we need to when this relative is resolved
-		incache[0].offset = -1;
+		data.offset = -1;
 
-		labelref.add(new LabelRef(numOps, labelIndex, labelSize, encoder.size()));
+		labelref.add(new LabelRef(numOps, labelIndex, data.size, encoder.size()));
 		hasRelativePatch = false;		// Mark patch as handled
 	}
 
 	@Override
-	void dump(Address instrAddr, int opcode, VarnodeData[] in, int isize, VarnodeData out)
+	void dump(Address instrAddr, int opcode, List<VarnodeData> in, int isize, VarnodeData out)
 			throws IOException {
 		int updatedOpcode = checkOverrides(opcode, in);
 		if (opcode == PcodeOp.CALLOTHER && updatedOpcode == PcodeOp.CALL) {
@@ -140,14 +138,14 @@ public class PcodeEmitPacked extends PcodeEmit {
 		}
 		int i = 0;
 		if ((updatedOpcode == PcodeOp.LOAD) || (updatedOpcode == PcodeOp.STORE)) {
-			dumpSpaceId(in[0]);
+			dumpSpaceId(in.get(0));
 			i = 1;
 		}
 		else if (hasRelativePatch) {
 			addLabelRefDelayed();
 		}
 		for (; i < isize; ++i) {
-			in[i].encode(encoder);
+			in.get(i).encode(encoder);
 		}
 		encoder.closeElement(ELEM_OP);
 	}

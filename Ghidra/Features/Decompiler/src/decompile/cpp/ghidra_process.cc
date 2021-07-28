@@ -229,10 +229,8 @@ void DeregisterProgram::rawAction(void)
 
 {
 #ifdef __REMOTE_SOCKET__
-    if (ghidra_dcp != (IfaceStatus *)0)
-      delete ghidra_dcp;
-    if (remote != (RemoteSocket *)0)
-      delete remote;
+    delete ghidra_dcp;
+    delete remote;
     ghidra_dcp = (IfaceStatus *)0;
     remote = (RemoteSocket *)0;
 #endif
@@ -425,8 +423,7 @@ void SetOptions::loadParameters(void)
 SetOptions::~SetOptions(void)
 
 {
-  if (decoder != (Decoder *)0)
-    delete decoder;
+  delete decoder;
 }
 
 void SetOptions::rawAction(void)
@@ -485,9 +482,8 @@ int4 GhidraCapability::readCommand(istream &sin,ostream &out)
 void GhidraCapability::shutDown(void)
 
 {
-  map<string,GhidraCommand *>::iterator iter;
-  for(iter=commandmap.begin();iter!=commandmap.end();++iter)
-    delete (*iter).second;
+  for(auto &it : commandmap)
+    delete it.second;
 }
 
 void GhidraDecompCapability::initialize(void)

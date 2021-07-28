@@ -242,10 +242,8 @@ void Varnode::updateCover(void) const
 void Varnode::clearCover(void) const
 
 {
-  if (cover != (Cover *)0) {
-    delete cover;
-    cover = (Cover *)0;
-  }
+  delete cover;
+  cover = (Cover *)0;
 }
 
 /// Initialize a new Cover and set dirty bit so that updateCover will rebuild
@@ -253,8 +251,7 @@ void Varnode::calcCover(void) const
 
 {
   if (hasCover()) {
-    if (cover != (Cover *)0)
-      delete cover;
+    delete cover;
     cover = new Cover;
     setFlags(Varnode::coverdirty);
   }
@@ -596,8 +593,7 @@ Varnode::Varnode(int4 s,const Address &m,Datatype *dt)
 Varnode::~Varnode(void)
 
 {
-  if (cover != (Cover *)0)
-    delete cover;
+  delete cover;
   if (high != (HighVariable *)0) {
     high->remove(this);
     if (high->isUnattached())
@@ -1133,10 +1129,8 @@ VarnodeBank::VarnodeBank(AddrSpaceManager *m)
 void VarnodeBank::clear(void)
 
 {
-  VarnodeLocSet::iterator iter;
-
-  for(iter=loc_tree.begin();iter!=loc_tree.end();++iter)
-    delete *iter;
+  for(auto *it : loc_tree)
+    delete it;
 
   loc_tree.clear();
   def_tree.clear();

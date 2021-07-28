@@ -95,7 +95,7 @@ private:
   int4 delayslot;		// delayslot depth
 public:
   ParserContext(ContextCache *ccache,Translate *trans);
-  ~ParserContext(void) { if (context != (uintm *)0) delete [] context; }
+  ~ParserContext(void) { delete [] context; }
   uint1 *getBuffer(void) { return buf; }
   void initialize(int4 maxstate,int4 maxparam,AddrSpace *spc);
   int4 getParserState(void) const { return parsestate; }

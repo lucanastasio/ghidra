@@ -517,8 +517,7 @@ void Sleigh::clearForDelete(void)
 
 {
   delete cache;
-  if (discache != (DisassemblyCache *)0)
-    delete discache;
+  delete discache;
 }
 
 Sleigh::~Sleigh(void)

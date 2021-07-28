@@ -334,9 +334,8 @@ bool LanedRegister::decode(Decoder &decoder)
 TransformManager::~TransformManager(void)
 
 {
-  map<int4,TransformVar *>::iterator iter;
-  for(iter=pieceMap.begin();iter!=pieceMap.end();++iter) {
-    delete [] (*iter).second;
+  for(auto &it : pieceMap) {
+    delete [] it.second;
   }
 }
 

@@ -2264,8 +2264,7 @@ void TypeCode::setPrototype(TypeFactory *tfact,ProtoModel *model,
 {
   factory = tfact;
   flags |= variable_length;
-  if (proto != (FuncProto *)0)
-    delete proto;
+  delete proto;
   proto = new FuncProto();
   proto->setInternal(model,voidtype);
   vector<Datatype *> typelist;
@@ -2322,8 +2321,7 @@ TypeCode::TypeCode(void) : Datatype(1,TYPE_CODE)
 TypeCode::~TypeCode(void)
 
 {
-  if (proto != (FuncProto *)0)
-    delete proto;
+  delete proto;
 }
 
 void TypeCode::printRaw(ostream &s) const
@@ -2785,10 +2783,8 @@ void TypeFactory::cacheCoreTypes(void)
 void TypeFactory::clear(void)
 
 {
-  DatatypeSet::iterator iter;
-
-  for(iter=tree.begin();iter!=tree.end();++iter)
-    delete *iter;
+  for(auto *it : tree)
+    delete it;
   tree.clear();
   nametree.clear();
   clearCache();

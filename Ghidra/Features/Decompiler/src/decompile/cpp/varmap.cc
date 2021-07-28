@@ -800,9 +800,8 @@ MapState::MapState(AddrSpace *spc,const RangeList &rn,
 MapState::~MapState(void)
 
 {
-  vector<RangeHint *>::iterator riter;
-  for(riter=maplist.begin();riter!=maplist.end();++riter)
-    delete *riter;
+  for(auto *it : maplist)
+    delete it;
 }
 
 /// A specific range of bytes is described for the hint, given a starting offset and other information.

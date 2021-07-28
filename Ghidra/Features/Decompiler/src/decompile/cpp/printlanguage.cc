@@ -74,8 +74,7 @@ PrintLanguage::~PrintLanguage(void)
 
 {
   delete emit;
-  if (castStrategy != (CastStrategy *)0)
-    delete castStrategy;
+  delete castStrategy;
 }
 
 /// \param val is the number of characters

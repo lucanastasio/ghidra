@@ -1584,19 +1584,19 @@ yydestruct (const char *yymsg,
         break;
 
     case YYSYMBOL_jumpdest: /* jumpdest  */
-            { if (((*yyvaluep).varnode) != (VarnodeTpl *)0) delete ((*yyvaluep).varnode); }
+            { delete ((*yyvaluep).varnode); }
         break;
 
     case YYSYMBOL_varnode: /* varnode  */
-            { if (((*yyvaluep).varnode) != (VarnodeTpl *)0) delete ((*yyvaluep).varnode); }
+            { delete ((*yyvaluep).varnode); }
         break;
 
     case YYSYMBOL_integervarnode: /* integervarnode  */
-            { if (((*yyvaluep).varnode) != (VarnodeTpl *)0) delete ((*yyvaluep).varnode); }
+            { delete ((*yyvaluep).varnode); }
         break;
 
     case YYSYMBOL_lhsvarnode: /* lhsvarnode  */
-            { if (((*yyvaluep).varnode) != (VarnodeTpl *)0) delete ((*yyvaluep).varnode); }
+            { delete ((*yyvaluep).varnode); }
         break;
 
     case YYSYMBOL_paramlist: /* paramlist  */
@@ -2976,10 +2976,8 @@ void PcodeSnippet::clear(void)
       tree.erase(tmpiter);
     }
   }
-  if (result != (ConstructTpl *)0) {
-    delete result;
-    result = (ConstructTpl *)0;
-  }
+  delete result;
+  result = (ConstructTpl *)0;
   // tempbase = 0;
   errorcount = 0;
   firsterror.clear();
@@ -3010,13 +3008,9 @@ PcodeSnippet::PcodeSnippet(const SleighBase *slgh)
 PcodeSnippet::~PcodeSnippet(void)
 
 {
-  SymbolTree::iterator iter;
-  for(iter=tree.begin();iter!=tree.end();++iter)
-    delete *iter;		// Free ALL temporary symbols
-  if (result != (ConstructTpl *)0) {
-    delete result;
-    result = (ConstructTpl *)0;
-  }
+  for(auto *it : tree)
+    delete it;		// Free ALL temporary symbols
+  delete result;
 }
 
 void PcodeSnippet::reportError(const Location *loc, const string &msg)

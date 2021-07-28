@@ -127,9 +127,8 @@ OptionDatabase::OptionDatabase(Architecture *g)
 OptionDatabase::~OptionDatabase(void)
 
 {
-  map<uint4,ArchOption *>::iterator iter;
-  for(iter=optionmap.begin();iter!=optionmap.end();++iter)
-    delete (*iter).second;
+  for(auto &it : optionmap)
+    delete it.second;
 }
 
 /// Perform an \e option \e command directly, given its id and optional parameters

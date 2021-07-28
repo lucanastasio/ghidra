@@ -27,10 +27,8 @@ ElementId ELEM_PROTOOVERRIDE = ElementId("protooverride",224);
 void Override::clear(void)
 
 {
-  map<Address,FuncProto *>::iterator iter;
-
-  for(iter=protoover.begin();iter!=protoover.end();++iter)
-    delete (*iter).second;
+  for(auto &it : protoover)
+    delete it.second;
 
   forcegoto.clear();
   deadcodedelay.clear();

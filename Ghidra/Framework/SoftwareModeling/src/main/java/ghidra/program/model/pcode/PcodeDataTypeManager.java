@@ -519,10 +519,10 @@ public class PcodeDataTypeManager {
 	private void encodeEnum(Encoder encoder, Enum type, int size) throws IOException {
 		encoder.openElement(ELEM_TYPE);
 		encodeNameIdAttributes(encoder, type);
-		long[] keys = type.getValues();
+		long[] values = type.getValues();
 		String metatype = "uint";
-		for (long key : keys) {
-			if (key < 0) {
+		for (long value : values) {
+			if (value < 0) {
 				metatype = "int";
 				break;
 			}
@@ -530,10 +530,17 @@ public class PcodeDataTypeManager {
 		encoder.writeString(ATTRIB_METATYPE, metatype);
 		encoder.writeSignedInteger(ATTRIB_SIZE, type.getLength());
 		encoder.writeBool(ATTRIB_ENUM, true);
-		for (long key : keys) {
+		for (long value : values) {
+			String name;
+			String[] names = type.getNames(value);
+			if (names.length == 1) {
+				name = names[0];
+			} else {
+				name = "(".concat(String.join(" | ", names)).concat(")");
+			}
 			encoder.openElement(ELEM_VAL);
-			encoder.writeString(ATTRIB_NAME, type.getName(key));
-			encoder.writeSignedInteger(ATTRIB_VALUE, key);
+			encoder.writeString(ATTRIB_NAME, name);
+			encoder.writeSignedInteger(ATTRIB_VALUE, value);
 			encoder.closeElement(ELEM_VAL);
 		}
 		encoder.closeElement(ELEM_TYPE);

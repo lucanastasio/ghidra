@@ -1,6 +1,7 @@
 ##VERSION: 2.0
 Module.manifest||GHIDRA||||END|
 data/languages/atmega256.pspec||GHIDRA||||END|
+data/languages/atmega1284p.pspec||GHIDRA||||END|
 data/languages/avr32.opinion||GHIDRA||||END|
 data/languages/avr32a.cspec||GHIDRA||||END|
 data/languages/avr32a.ldefs||GHIDRA||||END|

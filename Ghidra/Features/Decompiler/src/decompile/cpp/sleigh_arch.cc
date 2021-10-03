@@ -26,10 +26,10 @@ AttributeId ATTRIB_TARGET = AttributeId("target",142);
 AttributeId ATTRIB_VARIANT = AttributeId("variant",143);
 AttributeId ATTRIB_VERSION = AttributeId("version",144);
 
-ElementId ELEM_COMPILER = ElementId("compiler",232);
-ElementId ELEM_DESCRIPTION = ElementId("description",233);
-ElementId ELEM_LANGUAGE = ElementId("language",234);
-ElementId ELEM_LANGUAGE_DEFINITIONS = ElementId("language_definitions",235);
+ElementId ELEM_COMPILER = ElementId("compiler",234);
+ElementId ELEM_DESCRIPTION = ElementId("description",235);
+ElementId ELEM_LANGUAGE = ElementId("language",236);
+ElementId ELEM_LANGUAGE_DEFINITIONS = ElementId("language_definitions",237);
 
 map<int4,Sleigh *> SleighArchitecture::translators;
 vector<LanguageDescription> SleighArchitecture::description;

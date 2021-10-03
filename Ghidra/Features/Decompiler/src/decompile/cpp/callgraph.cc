@@ -16,8 +16,8 @@
 #include "callgraph.hh"
 #include "funcdata.hh"
 
-ElementId ELEM_CALLGRAPH = ElementId("callgraph",226);
-ElementId ELEM_NODE = ElementId("node",227);
+ElementId ELEM_CALLGRAPH = ElementId("callgraph",228);
+ElementId ELEM_NODE = ElementId("node",229);
 
 void CallGraphEdge::encode(Encoder &encoder) const
 

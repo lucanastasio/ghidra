@@ -20,13 +20,13 @@
 AttributeId ATTRIB_LABEL = AttributeId("label",131);
 AttributeId ATTRIB_NUM = AttributeId("num",132);
 
-ElementId ELEM_BASICOVERRIDE = ElementId("basicoverride",211);
-ElementId ELEM_DEST = ElementId("dest",212);
-ElementId ELEM_JUMPTABLE = ElementId("jumptable",213);
-ElementId ELEM_LOADTABLE = ElementId("loadtable",214);
-ElementId ELEM_NORMADDR = ElementId("normaddr",215);
-ElementId ELEM_NORMHASH = ElementId("normhash",216);
-ElementId ELEM_STARTVAL = ElementId("startval",217);
+ElementId ELEM_BASICOVERRIDE = ElementId("basicoverride",213);
+ElementId ELEM_DEST = ElementId("dest",214);
+ElementId ELEM_JUMPTABLE = ElementId("jumptable",215);
+ElementId ELEM_LOADTABLE = ElementId("loadtable",216);
+ElementId ELEM_NORMADDR = ElementId("normaddr",217);
+ElementId ELEM_NORMHASH = ElementId("normhash",218);
+ElementId ELEM_STARTVAL = ElementId("startval",219);
 
 /// \param encoder is the stream encoder
 void LoadTable::encode(Encoder &encoder) const

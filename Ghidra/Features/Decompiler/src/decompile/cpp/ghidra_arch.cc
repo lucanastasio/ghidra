@@ -25,25 +25,25 @@
 
 //AttributeId ATTRIB_BADDATA = AttributeId("baddata",145);
 
-ElementId ELEM_COMMAND_ISNAMEUSED = ElementId("command_isnameused",239);
-ElementId ELEM_COMMAND_GETBYTES = ElementId("command_getbytes",240);
-ElementId ELEM_COMMAND_GETCALLFIXUP = ElementId("command_getcallfixup",241);
-ElementId ELEM_COMMAND_GETCALLMECH = ElementId("command_getcallmech",242);
-ElementId ELEM_COMMAND_GETCALLOTHERFIXUP = ElementId("command_getcallotherfixup",243);
-ElementId ELEM_COMMAND_GETCODELABEL = ElementId("command_getcodelabel",244);
-ElementId ELEM_COMMAND_GETCOMMENTS = ElementId("command_getcomments",245);
-ElementId ELEM_COMMAND_GETCPOOLREF = ElementId("command_getcpoolref",246);
-ElementId ELEM_COMMAND_GETDATATYPE = ElementId("command_getdatatype",247);
-ElementId ELEM_COMMAND_GETEXTERNALREF = ElementId("command_getexternalref",248);
-ElementId ELEM_COMMAND_GETMAPPEDSYMBOLS = ElementId("command_getmappedsymbols",249);
-ElementId ELEM_COMMAND_GETNAMESPACEPATH = ElementId("command_getnamespacepath",250);
-ElementId ELEM_COMMAND_GETPCODE = ElementId("command_getpcode",251);
-ElementId ELEM_COMMAND_GETPCODEEXECUTABLE = ElementId("command_getpcodeexecutable",252);
-ElementId ELEM_COMMAND_GETREGISTER = ElementId("command_getregister",253);
-ElementId ELEM_COMMAND_GETREGISTERNAME = ElementId("command_getregistername",254);
-ElementId ELEM_COMMAND_GETSTRINGDATA = ElementId("command_getstringdata",255);
-ElementId ELEM_COMMAND_GETTRACKEDREGISTERS = ElementId("command_gettrackedregisters",256);
-ElementId ELEM_COMMAND_GETUSEROPNAME = ElementId("command_getuseropname",257);
+ElementId ELEM_COMMAND_ISNAMEUSED = ElementId("command_isnameused",241);
+ElementId ELEM_COMMAND_GETBYTES = ElementId("command_getbytes",242);
+ElementId ELEM_COMMAND_GETCALLFIXUP = ElementId("command_getcallfixup",243);
+ElementId ELEM_COMMAND_GETCALLMECH = ElementId("command_getcallmech",244);
+ElementId ELEM_COMMAND_GETCALLOTHERFIXUP = ElementId("command_getcallotherfixup",245);
+ElementId ELEM_COMMAND_GETCODELABEL = ElementId("command_getcodelabel",246);
+ElementId ELEM_COMMAND_GETCOMMENTS = ElementId("command_getcomments",247);
+ElementId ELEM_COMMAND_GETCPOOLREF = ElementId("command_getcpoolref",248);
+ElementId ELEM_COMMAND_GETDATATYPE = ElementId("command_getdatatype",249);
+ElementId ELEM_COMMAND_GETEXTERNALREF = ElementId("command_getexternalref",250);
+ElementId ELEM_COMMAND_GETMAPPEDSYMBOLS = ElementId("command_getmappedsymbols",251);
+ElementId ELEM_COMMAND_GETNAMESPACEPATH = ElementId("command_getnamespacepath",252);
+ElementId ELEM_COMMAND_GETPCODE = ElementId("command_getpcode",253);
+ElementId ELEM_COMMAND_GETPCODEEXECUTABLE = ElementId("command_getpcodeexecutable",254);
+ElementId ELEM_COMMAND_GETREGISTER = ElementId("command_getregister",255);
+ElementId ELEM_COMMAND_GETREGISTERNAME = ElementId("command_getregistername",256);
+ElementId ELEM_COMMAND_GETSTRINGDATA = ElementId("command_getstringdata",257);
+ElementId ELEM_COMMAND_GETTRACKEDREGISTERS = ElementId("command_gettrackedregisters",258);
+ElementId ELEM_COMMAND_GETUSEROPNAME = ElementId("command_getuseropname",259);
 
 /// Catch the signal so the OS doesn't pop up a dialog
 /// \param sig is the OS signal (should always be SIGSEGV)

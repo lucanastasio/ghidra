@@ -275,149 +275,147 @@ public record ElementId(String name, int id) {
 	public static final ElementId ELEM_ANALYZEFORLOOPS = new ElementId("analyzeforloops", 176);
 	public static final ElementId ELEM_COMMENTHEADER = new ElementId("commentheader", 177);
 	public static final ElementId ELEM_COMMENTINDENT = new ElementId("commentindent", 178);
-	public static final ElementId ELEM_COMMENTINSTRUCTION =
-		new ElementId("commentinstruction", 179);
-	public static final ElementId ELEM_COMMENTSTYLE = new ElementId("commentstyle", 180);
-	public static final ElementId ELEM_CONVENTIONPRINTING =
-		new ElementId("conventionprinting", 181);
-	public static final ElementId ELEM_CURRENTACTION = new ElementId("currentaction", 182);
-	public static final ElementId ELEM_DEFAULTPROTOTYPE = new ElementId("defaultprototype", 183);
-	public static final ElementId ELEM_ERRORREINTERPRETED =
-		new ElementId("errorreinterpreted", 184);
-	public static final ElementId ELEM_ERRORTOOMANYINSTRUCTIONS =
-		new ElementId("errortoomanyinstructions", 185);
-	public static final ElementId ELEM_ERRORUNIMPLEMENTED =
-		new ElementId("errorunimplemented", 186);
-	public static final ElementId ELEM_EXTRAPOP = new ElementId("extrapop", 187);
-	public static final ElementId ELEM_IGNOREUNIMPLEMENTED =
-		new ElementId("ignoreunimplemented", 188);
-	public static final ElementId ELEM_INDENTINCREMENT = new ElementId("indentincrement", 189);
-	public static final ElementId ELEM_INFERCONSTPTR = new ElementId("inferconstptr", 190);
-	public static final ElementId ELEM_INLINE = new ElementId("inline", 191);
-	public static final ElementId ELEM_INPLACEOPS = new ElementId("inplaceops", 192);
-	public static final ElementId ELEM_INTEGERFORMAT = new ElementId("integerformat", 193);
-	public static final ElementId ELEM_JUMPLOAD = new ElementId("jumpload", 194);
-	public static final ElementId ELEM_MAXINSTRUCTION = new ElementId("maxinstruction", 195);
-	public static final ElementId ELEM_MAXLINEWIDTH = new ElementId("maxlinewidth", 196);
-	public static final ElementId ELEM_NAMESPACESTRATEGY = new ElementId("namespacestrategy", 197);
-	public static final ElementId ELEM_NOCASTPRINTING = new ElementId("nocastprinting", 198);
-	public static final ElementId ELEM_NORETURN = new ElementId("noreturn", 199);
-	public static final ElementId ELEM_NULLPRINTING = new ElementId("nullprinting", 200);
-	public static final ElementId ELEM_OPTIONSLIST = new ElementId("optionslist", 201);
-	public static final ElementId ELEM_PARAM1 = new ElementId("param1", 202);
-	public static final ElementId ELEM_PARAM2 = new ElementId("param2", 203);
-	public static final ElementId ELEM_PARAM3 = new ElementId("param3", 204);
-	public static final ElementId ELEM_PROTOEVAL = new ElementId("protoeval", 205);
-	public static final ElementId ELEM_SETACTION = new ElementId("setaction", 206);
-	public static final ElementId ELEM_SETLANGUAGE = new ElementId("setlanguage", 207);
-	public static final ElementId ELEM_STRUCTALIGN = new ElementId("structalign", 208);
-	public static final ElementId ELEM_TOGGLERULE = new ElementId("togglerule", 209);
-	public static final ElementId ELEM_WARNING = new ElementId("warning", 210);
+	public static final ElementId ELEM_COMMENTINDENTALIGN = new ElementId("commentindentalign", 179);
+	public static final ElementId ELEM_COMMENTINSTRUCTION = new ElementId("commentinstruction", 180);
+	public static final ElementId ELEM_COMMENTSTYLE = new ElementId("commentstyle", 181);
+	public static final ElementId ELEM_CONVENTIONPRINTING = new ElementId("conventionprinting", 182);
+	public static final ElementId ELEM_CURRENTACTION = new ElementId("currentaction", 183);
+	public static final ElementId ELEM_DEFAULTPROTOTYPE = new ElementId("defaultprototype", 184);
+	public static final ElementId ELEM_ERRORREINTERPRETED = new ElementId("errorreinterpreted", 185);
+	public static final ElementId ELEM_ERRORTOOMANYINSTRUCTIONS = new ElementId("errortoomanyinstructions", 186);
+	public static final ElementId ELEM_ERRORUNIMPLEMENTED = new ElementId("errorunimplemented", 187);
+	public static final ElementId ELEM_EXTRAPOP = new ElementId("extrapop", 188);
+	public static final ElementId ELEM_IGNOREUNIMPLEMENTED = new ElementId("ignoreunimplemented", 189);
+	public static final ElementId ELEM_INDENTINCREMENT = new ElementId("indentincrement", 190);
+	public static final ElementId ELEM_INFERCONSTPTR = new ElementId("inferconstptr", 191);
+	public static final ElementId ELEM_INLINE = new ElementId("inline", 192);
+	public static final ElementId ELEM_INPLACEOPS = new ElementId("inplaceops", 193);
+	public static final ElementId ELEM_INTEGERFORMAT = new ElementId("integerformat", 194);
+	public static final ElementId ELEM_JUMPLOAD = new ElementId("jumpload", 195);
+	public static final ElementId ELEM_MAXINSTRUCTION = new ElementId("maxinstruction", 196);
+	public static final ElementId ELEM_MAXLINEWIDTH = new ElementId("maxlinewidth", 197);
+	public static final ElementId ELEM_NAMESPACESTRATEGY = new ElementId("namespacestrategy", 198);
+	public static final ElementId ELEM_NOCASTPRINTING = new ElementId("nocastprinting", 199);
+	public static final ElementId ELEM_NORETURN = new ElementId("noreturn", 200);
+	public static final ElementId ELEM_NULLPRINTING = new ElementId("nullprinting", 201);
+	public static final ElementId ELEM_OPTIONSLIST = new ElementId("optionslist", 202);
+	public static final ElementId ELEM_PARAM1 = new ElementId("param1", 203);
+	public static final ElementId ELEM_PARAM2 = new ElementId("param2", 204);
+	public static final ElementId ELEM_PARAM3 = new ElementId("param3", 205);
+	public static final ElementId ELEM_PROTOEVAL = new ElementId("protoeval", 206);
+	public static final ElementId ELEM_INDENTATIONSTYLE = new ElementId("indentationstyle", 207);
+	public static final ElementId ELEM_SETACTION = new ElementId("setaction", 208);
+	public static final ElementId ELEM_SETLANGUAGE = new ElementId("setlanguage", 209);
+	public static final ElementId ELEM_STRUCTALIGN = new ElementId("structalign", 210);
+	public static final ElementId ELEM_TOGGLERULE = new ElementId("togglerule", 211);
+	public static final ElementId ELEM_WARNING = new ElementId("warning", 212);
 
 	// jumptable
-	public static final ElementId ELEM_BASICOVERRIDE = new ElementId("basicoverride", 211);
-	public static final ElementId ELEM_DEST = new ElementId("dest", 212);
-	public static final ElementId ELEM_JUMPTABLE = new ElementId("jumptable", 213);
-	public static final ElementId ELEM_LOADTABLE = new ElementId("loadtable", 214);
-	public static final ElementId ELEM_NORMADDR = new ElementId("normaddr", 215);
-	public static final ElementId ELEM_NORMHASH = new ElementId("normhash", 216);
-	public static final ElementId ELEM_STARTVAL = new ElementId("startval", 217);
+	public static final ElementId ELEM_BASICOVERRIDE = new ElementId("basicoverride", 213);
+	public static final ElementId ELEM_DEST = new ElementId("dest", 214);
+	public static final ElementId ELEM_JUMPTABLE = new ElementId("jumptable", 215);
+	public static final ElementId ELEM_LOADTABLE = new ElementId("loadtable", 216);
+	public static final ElementId ELEM_NORMADDR = new ElementId("normaddr", 217);
+	public static final ElementId ELEM_NORMHASH = new ElementId("normhash", 218);
+	public static final ElementId ELEM_STARTVAL = new ElementId("startval", 219);
 
 	// override
-	public static final ElementId ELEM_DEADCODEDELAY = new ElementId("deadcodedelay", 218);
-	public static final ElementId ELEM_FLOW = new ElementId("flow", 219);
-	public static final ElementId ELEM_FORCEGOTO = new ElementId("forcegoto", 220);
-	public static final ElementId ELEM_INDIRECTOVERRIDE = new ElementId("indirectoverride", 221);
-	public static final ElementId ELEM_MULTISTAGEJUMP = new ElementId("multistagejump", 222);
-	public static final ElementId ELEM_OVERRIDE = new ElementId("override", 223);
-	public static final ElementId ELEM_PROTOOVERRIDE = new ElementId("protooverride", 224);
+	public static final ElementId ELEM_DEADCODEDELAY = new ElementId("deadcodedelay", 220);
+	public static final ElementId ELEM_FLOW = new ElementId("flow", 221);
+	public static final ElementId ELEM_FORCEGOTO = new ElementId("forcegoto", 222);
+	public static final ElementId ELEM_INDIRECTOVERRIDE = new ElementId("indirectoverride", 223);
+	public static final ElementId ELEM_MULTISTAGEJUMP = new ElementId("multistagejump", 224);
+	public static final ElementId ELEM_OVERRIDE = new ElementId("override", 225);
+	public static final ElementId ELEM_PROTOOVERRIDE = new ElementId("protooverride", 226);
 
 	// prefersplit
-	public static final ElementId ELEM_PREFERSPLIT = new ElementId("prefersplit", 225);
+	public static final ElementId ELEM_PREFERSPLIT = new ElementId("prefersplit", 227);
 
 	// callgraph
-	public static final ElementId ELEM_CALLGRAPH = new ElementId("callgraph", 226);
-	public static final ElementId ELEM_NODE = new ElementId("node", 227);
+	public static final ElementId ELEM_CALLGRAPH = new ElementId("callgraph", 228);
+	public static final ElementId ELEM_NODE = new ElementId("node", 229);
 
 	// varmap
-	public static final ElementId ELEM_LOCALDB = new ElementId("localdb", 228);
+	public static final ElementId ELEM_LOCALDB = new ElementId("localdb", 230);
 
 	// ghidra_process
-	public static final ElementId ELEM_DOC = new ElementId("doc", 229);
+	public static final ElementId ELEM_DOC = new ElementId("doc", 231);
 
 	// loadimage_xml
-//	public static final ElementId ELEM_BINARYIMAGE = new ElementId("binaryimage", 230);
-//	public static final ElementId ELEM_BYTECHUNK = new ElementId("bytechunk", 231);
+//	public static final ElementId ELEM_BINARYIMAGE = new ElementId("binaryimage", 232);
+//	public static final ElementId ELEM_BYTECHUNK = new ElementId("bytechunk", 233);
 
 	// sleigh_arch
-//	public static final ElementId ELEM_COMPILER = new ElementId("compiler", 232);
-//	public static final ElementId ELEM_DESCRIPTION = new ElementId("description", 233);
-//	public static final ElementId ELEM_LANGUAGE = new ElementId("language", 234);
-//	public static final ElementId ELEM_LANGUAGE_DEFINITIONS =
-//		new ElementId("language_definitions", 235);
+//	public static final ElementId ELEM_COMPILER = new ElementId("compiler", 234);
+//	public static final ElementId ELEM_DESCRIPTION = new ElementId("description", 235);
+//	public static final ElementId ELEM_LANGUAGE = new ElementId("language", 236);
+//	public static final ElementId ELEM_LANGUAGE_DEFINITIONS = new ElementId("language_definitions", 237);
 
 	// xml_arch
-//	public static final ElementId ELEM_XML_SAVEFILE = new ElementId("xml_savefile", 236);
+//	public static final ElementId ELEM_XML_SAVEFILE = new ElementId("xml_savefile", 238);
 
 	// raw_arch
-//	public static final ElementId ELEM_RAW_SAVEFILE = new ElementId("raw_savefile", 237);
+//	public static final ElementId ELEM_RAW_SAVEFILE = new ElementId("raw_savefile", 239);
+
+	// bfd_arch
+//	public static final ElemendId ELEM_BFD_SAVEFILE = new ElementId("bfd_savefile", 240);
 
 	// ghidra_arch
-	public static final int COMMAND_ISNAMEUSED = 239;
+	public static final int COMMAND_ISNAMEUSED = 241;
 	public static final ElementId ELEM_COMMAND_ISNAMEUSED =
 		new ElementId("command_isnameused", COMMAND_ISNAMEUSED);
-	public static final int COMMAND_GETBYTES = 240;
+	public static final int COMMAND_GETBYTES = 242;
 	public static final ElementId ELEM_COMMAND_GETBYTES =
 		new ElementId("command_getbytes", COMMAND_GETBYTES);
-	public static final int COMMAND_GETCALLFIXUP = 241;
+	public static final int COMMAND_GETCALLFIXUP = 243;
 	public static final ElementId ELEM_COMMAND_GETCALLFIXUP =
 		new ElementId("command_getcallfixup", COMMAND_GETCALLFIXUP);
-	public static final int COMMAND_GETCALLMECH = 242;
+	public static final int COMMAND_GETCALLMECH = 244;
 	public static final ElementId ELEM_COMMAND_GETCALLMECH =
 		new ElementId("command_getcallmech", COMMAND_GETCALLMECH);
-	public static final int COMMAND_GETCALLOTHERFIXUP = 243;
+	public static final int COMMAND_GETCALLOTHERFIXUP = 245;
 	public static final ElementId ELEM_COMMAND_GETCALLOTHERFIXUP =
 		new ElementId("command_getcallotherfixup", COMMAND_GETCALLOTHERFIXUP);
-	public static final int COMMAND_GETCODELABEL = 244;
+	public static final int COMMAND_GETCODELABEL = 246;
 	public static final ElementId ELEM_COMMAND_GETCODELABEL =
 		new ElementId("command_getcodelabel", COMMAND_GETCODELABEL);
-	public static final int COMMAND_GETCOMMENTS = 245;
+	public static final int COMMAND_GETCOMMENTS = 247;
 	public static final ElementId ELEM_COMMAND_GETCOMMENTS =
 		new ElementId("command_getcomments", COMMAND_GETCOMMENTS);
-	public static final int COMMAND_GETCPOOLREF = 246;
+	public static final int COMMAND_GETCPOOLREF = 248;
 	public static final ElementId ELEM_COMMAND_GETCPOOLREF =
 		new ElementId("command_getcpoolref", COMMAND_GETCPOOLREF);
-	public static final int COMMAND_GETDATATYPE = 247;
+	public static final int COMMAND_GETDATATYPE = 249;
 	public static final ElementId ELEM_COMMAND_GETDATATYPE =
 		new ElementId("command_getdatatype", COMMAND_GETDATATYPE);
-	public static final int COMMAND_GETEXTERNALREF = 248;
+	public static final int COMMAND_GETEXTERNALREF = 250;
 	public static final ElementId ELEM_COMMAND_GETEXTERNALREF =
 		new ElementId("command_getexternalref", COMMAND_GETEXTERNALREF);
-	public static final int COMMAND_GETMAPPEDSYMBOLS = 249;
+	public static final int COMMAND_GETMAPPEDSYMBOLS = 251;
 	public static final ElementId ELEM_COMMAND_GETMAPPEDSYMBOLS =
 		new ElementId("command_getmappedsymbols", COMMAND_GETMAPPEDSYMBOLS);
-	public static final int COMMAND_GETNAMESPACEPATH = 250;
+	public static final int COMMAND_GETNAMESPACEPATH = 252;
 	public static final ElementId ELEM_COMMAND_GETNAMESPACEPATH =
 		new ElementId("command_getnamespacepath", COMMAND_GETNAMESPACEPATH);
-	public static final int COMMAND_GETPCODE = 251;
+	public static final int COMMAND_GETPCODE = 253;
 	public static final ElementId ELEM_COMMAND_GETPCODE =
 		new ElementId("command_getpcode", COMMAND_GETPCODE);
-	public static final int COMMAND_GETPCODEEXECUTABLE = 252;
+	public static final int COMMAND_GETPCODEEXECUTABLE = 254;
 	public static final ElementId ELEM_COMMAND_GETPCODEEXECUTABLE =
 		new ElementId("command_getpcodeexecutable", COMMAND_GETPCODEEXECUTABLE);
-	public static final int COMMAND_GETREGISTER = 253;
+	public static final int COMMAND_GETREGISTER = 255;
 	public static final ElementId ELEM_COMMAND_GETREGISTER =
 		new ElementId("command_getregister", COMMAND_GETREGISTER);
-	public static final int COMMAND_GETREGISTERNAME = 254;
+	public static final int COMMAND_GETREGISTERNAME = 256;
 	public static final ElementId ELEM_COMMAND_GETREGISTERNAME =
 		new ElementId("command_getregistername", COMMAND_GETREGISTERNAME);
-	public static final int COMMAND_GETSTRINGDATA = 255;
+	public static final int COMMAND_GETSTRINGDATA = 257;
 	public static final ElementId ELEM_COMMAND_GETSTRINGDATA =
 		new ElementId("command_getstring", COMMAND_GETSTRINGDATA);
-	public static final int COMMAND_GETTRACKEDREGISTERS = 256;
+	public static final int COMMAND_GETTRACKEDREGISTERS = 258;
 	public static final ElementId ELEM_COMMAND_GETTRACKEDREGISTERS =
 		new ElementId("command_gettrackedregisters", COMMAND_GETTRACKEDREGISTERS);
-	public static final int COMMAND_GETUSEROPNAME = 257;
+	public static final int COMMAND_GETUSEROPNAME = 259;
 	public static final ElementId ELEM_COMMAND_GETUSEROPNAME =
 		new ElementId("command_getuseropname", COMMAND_GETUSEROPNAME);
 

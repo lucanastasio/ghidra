@@ -23,38 +23,40 @@ ElementId ELEM_ALLOWCONTEXTSET = ElementId("allowcontextset",175);
 ElementId ELEM_ANALYZEFORLOOPS = ElementId("analyzeforloops",176);
 ElementId ELEM_COMMENTHEADER = ElementId("commentheader",177);
 ElementId ELEM_COMMENTINDENT = ElementId("commentindent",178);
-ElementId ELEM_COMMENTINSTRUCTION = ElementId("commentinstruction",179);
-ElementId ELEM_COMMENTSTYLE = ElementId("commentstyle",180);
-ElementId ELEM_CONVENTIONPRINTING = ElementId("conventionprinting",181);
-ElementId ELEM_CURRENTACTION = ElementId("currentaction",182);
-ElementId ELEM_DEFAULTPROTOTYPE = ElementId("defaultprototype",183);
-ElementId ELEM_ERRORREINTERPRETED = ElementId("errorreinterpreted",184);
-ElementId ELEM_ERRORTOOMANYINSTRUCTIONS = ElementId("errortoomanyinstructions",185);
-ElementId ELEM_ERRORUNIMPLEMENTED = ElementId("errorunimplemented",186);
-ElementId ELEM_EXTRAPOP = ElementId("extrapop",187);
-ElementId ELEM_IGNOREUNIMPLEMENTED = ElementId("ignoreunimplemented",188);
-ElementId ELEM_INDENTINCREMENT = ElementId("indentincrement",189);
-ElementId ELEM_INFERCONSTPTR = ElementId("inferconstptr",190);
-ElementId ELEM_INLINE = ElementId("inline",191);
-ElementId ELEM_INPLACEOPS = ElementId("inplaceops",192);
-ElementId ELEM_INTEGERFORMAT = ElementId("integerformat",193);
-ElementId ELEM_JUMPLOAD = ElementId("jumpload",194);
-ElementId ELEM_MAXINSTRUCTION = ElementId("maxinstruction",195);
-ElementId ELEM_MAXLINEWIDTH = ElementId("maxlinewidth",196);
-ElementId ELEM_NAMESPACESTRATEGY = ElementId("namespacestrategy",197);
-ElementId ELEM_NOCASTPRINTING = ElementId("nocastprinting",198);
-ElementId ELEM_NORETURN = ElementId("noreturn",199);
-ElementId ELEM_NULLPRINTING = ElementId("nullprinting",200);
-ElementId ELEM_OPTIONSLIST = ElementId("optionslist",201);
-ElementId ELEM_PARAM1 = ElementId("param1",202);
-ElementId ELEM_PARAM2 = ElementId("param2",203);
-ElementId ELEM_PARAM3 = ElementId("param3",204);
-ElementId ELEM_PROTOEVAL = ElementId("protoeval",205);
-ElementId ELEM_SETACTION = ElementId("setaction",206);
-ElementId ELEM_SETLANGUAGE = ElementId("setlanguage",207);
-ElementId ELEM_STRUCTALIGN = ElementId("structalign",208);
-ElementId ELEM_TOGGLERULE = ElementId("togglerule",209);
-ElementId ELEM_WARNING = ElementId("warning",210);
+ElementId ELEM_COMMENTINDENTALIGN = ElementId("commentindentalign",179);
+ElementId ELEM_COMMENTINSTRUCTION = ElementId("commentinstruction",180);
+ElementId ELEM_COMMENTSTYLE = ElementId("commentstyle",181);
+ElementId ELEM_CONVENTIONPRINTING = ElementId("conventionprinting",182);
+ElementId ELEM_CURRENTACTION = ElementId("currentaction",183);
+ElementId ELEM_DEFAULTPROTOTYPE = ElementId("defaultprototype",184);
+ElementId ELEM_ERRORREINTERPRETED = ElementId("errorreinterpreted",185);
+ElementId ELEM_ERRORTOOMANYINSTRUCTIONS = ElementId("errortoomanyinstructions",186);
+ElementId ELEM_ERRORUNIMPLEMENTED = ElementId("errorunimplemented",187);
+ElementId ELEM_EXTRAPOP = ElementId("extrapop",188);
+ElementId ELEM_IGNOREUNIMPLEMENTED = ElementId("ignoreunimplemented",189);
+ElementId ELEM_INDENTINCREMENT = ElementId("indentincrement",190);
+ElementId ELEM_INFERCONSTPTR = ElementId("inferconstptr",191);
+ElementId ELEM_INLINE = ElementId("inline",192);
+ElementId ELEM_INPLACEOPS = ElementId("inplaceops",193);
+ElementId ELEM_INTEGERFORMAT = ElementId("integerformat",194);
+ElementId ELEM_JUMPLOAD = ElementId("jumpload",195);
+ElementId ELEM_MAXINSTRUCTION = ElementId("maxinstruction",196);
+ElementId ELEM_MAXLINEWIDTH = ElementId("maxlinewidth",197);
+ElementId ELEM_NAMESPACESTRATEGY = ElementId("namespacestrategy",198);
+ElementId ELEM_NOCASTPRINTING = ElementId("nocastprinting",199);
+ElementId ELEM_NORETURN = ElementId("noreturn",200);
+ElementId ELEM_NULLPRINTING = ElementId("nullprinting",201);
+ElementId ELEM_OPTIONSLIST = ElementId("optionslist",202);
+ElementId ELEM_PARAM1 = ElementId("param1",203);
+ElementId ELEM_PARAM2 = ElementId("param2",204);
+ElementId ELEM_PARAM3 = ElementId("param3",205);
+ElementId ELEM_PROTOEVAL = ElementId("protoeval",206);
+ElementId ELEM_INDENTATIONSTYLE = ElementId("indentationstyle",207);
+ElementId ELEM_SETACTION = ElementId("setaction",208);
+ElementId ELEM_SETLANGUAGE = ElementId("setlanguage",209);
+ElementId ELEM_STRUCTALIGN = ElementId("structalign",210);
+ElementId ELEM_TOGGLERULE = ElementId("togglerule",211);
+ElementId ELEM_WARNING = ElementId("warning",212);
 
 /// If the parameter is "on" return \b true, if "off" return \b false.
 /// Any other value causes an exception.
@@ -109,6 +111,7 @@ OptionDatabase::OptionDatabase(Architecture *g)
   registerOption(new OptionMaxLineWidth());
   registerOption(new OptionIndentIncrement());
   registerOption(new OptionCommentIndent());
+  registerOption(new OptionCommentIndentAlign());
   registerOption(new OptionCommentStyle());
   registerOption(new OptionCommentHeader());
   registerOption(new OptionCommentInstruction());
@@ -521,6 +524,16 @@ string OptionCommentIndent::apply(Architecture *glb,const string &p1,const strin
     throw ParseError("Must specify integer comment indent");
   glb->print->setLineCommentIndent(val);
   return "Comment indent set to "+p1;
+}
+
+/// \class OptionCommentIndentAlign
+/// \brief Toggle whether to align the comment with the current code rather or use a fixed indentation.
+string OptionCommentIndentAlign::apply(Architecture *glb,const string &p1,const string &p2,const string &p3) const
+
+{
+  bool val = onOrOff(p1);
+  glb->print->setLineCommentIndentAlign(val);
+  return "Comment indent alignment turned "+p1;
 }
 
 /// \class OptionCommentStyle

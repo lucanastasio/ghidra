@@ -19,7 +19,7 @@
 AttributeId ATTRIB_LOCK = AttributeId("lock",133);
 AttributeId ATTRIB_MAIN = AttributeId("main",134);
 
-ElementId ELEM_LOCALDB = ElementId("localdb",228);
+ElementId ELEM_LOCALDB = ElementId("localdb",230);
 
 /// \brief Can the given intersecting RangeHint coexist with \b this at their given offsets
 ///

@@ -212,6 +212,12 @@ public:
   virtual string apply(Architecture *glb,const string &p1,const string &p2,const string &p3) const;
 };
 
+class OptionCommentIndentAlign : public ArchOption {
+public:
+  OptionCommentIndentAlign(void) { name = "commentindentalign"; }	///< Constructor
+  virtual string apply(Architecture *glb,const string &p1,const string &p2,const string &p3) const;
+};
+
 class OptionCommentStyle : public ArchOption {
 public:
   OptionCommentStyle(void) { name = "commentstyle"; }	///< Constructor

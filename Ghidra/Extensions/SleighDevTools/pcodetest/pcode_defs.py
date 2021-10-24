@@ -672,3 +672,76 @@ PCodeTest({
     'language_id': 'Xtensa:LE:32:default',
     'ccflags': '-L %(toolchain_dir)s/lib/gcc/xtensa-lx106-elf/%(gcc_version)s -lgcc',
 })
+
+PCodeTest({
+    'name': 'RV64GC',
+    'build_all': 1,
+    'toolchain': 'RISCV/riscv64-elf',
+    'language_id': 'RISCV:LE:64:RV64GC',
+    'architecture_test': 'RISCV',
+    'ccflags': '-lgcc -march=rv64gc -mabi=lp64d',
+    'has_float': 1,
+    'has_double': 1,
+    'has_longlong': 1,
+    'has_builtin': 1,
+})
+
+PCodeTest({
+    'name': 'RV64G',
+    'build_all': 1,
+    'toolchain': 'RISCV/riscv64-elf',
+    'language_id': 'RISCV:LE:64:RV64G',
+    'architecture_test': 'RISCV',
+    'ccflags': '-lgcc -march=rv64g -mabi=lp64d',
+    'has_float': 1,
+    'has_double': 1,
+    'has_longlong': 1,
+})
+
+PCodeTest({
+    'name': 'RV32G',
+    'build_all': 1,
+    'toolchain': 'RISCV/riscv-elf',
+    'language_id': 'RISCV:LE:32:RV32G',
+    'architecture_test': 'RISCV',
+    'ccflags': '-lgcc -march=rv32g -mabi=ilp32d',
+    'has_float': 1,
+    'has_double': 1,
+    'has_longlong': 1,
+})
+
+PCodeTest({
+    'name': 'RV32GC',
+    'build_all': 1,
+    'toolchain': 'RISCV/riscv-elf',
+    'language_id': 'RISCV:LE:32:RV32GC',
+    'architecture_test': 'RISCV',
+    'ccflags': '-lgcc -march=rv32gc -mabi=ilp32d',
+    'has_float': 1,
+    'has_double': 1,
+    'has_longlong': 1,
+})
+
+PCodeTest({
+    'name': 'RV32IMC',
+    'build_all': 1,
+    'toolchain': 'RISCV/riscv-elf',
+    'language_id': 'RISCV:LE:32:RV32IMC',
+    'architecture_test': 'RISCV',
+    'ccflags': '-lgcc -march=rv32imc -mabi=ilp32',
+    'has_float': 0,
+    'has_double': 0,
+    'has_longlong': 0,
+})
+
+PCodeTest({
+    'name': 'RV32IM',
+    'build_all': 1,
+    'toolchain': 'RISCV/riscv-elf',
+    'language_id': 'RISCV:LE:32:RV32IM',
+    'architecture_test': 'RISCV',
+    'ccflags': '-lgcc -march=rv32im -mabi=ilp32',
+    'has_float': 0,
+    'has_double': 0,
+    'has_longlong': 0,
+})

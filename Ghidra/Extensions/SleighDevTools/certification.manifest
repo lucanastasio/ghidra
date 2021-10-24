@@ -13,6 +13,11 @@ pcodetest/c_src/BIOPS_DOUBLE.test||GHIDRA||||END|
 pcodetest/c_src/BIOPS_FLOAT.test||GHIDRA||||END|
 pcodetest/c_src/BIOPS_LONGLONG.test||GHIDRA||||END|
 pcodetest/c_src/BitManipulation.test||GHIDRA||||END|
+pcodetest/c_src/BUILTIN.test||GHIDRA||||END|
+pcodetest/c_src/CONVERT.test||GHIDRA||||END|
+pcodetest/c_src/CONVERT_DOUBLE.test||GHIDRA||||END|
+pcodetest/c_src/CONVERT_FLOAT.test||GHIDRA||||END|
+pcodetest/c_src/CONVERT_LONGLONG.test||GHIDRA||||END|
 pcodetest/c_src/DecisionMaking.test||GHIDRA||||END|
 pcodetest/c_src/GlobalVariables.test||GHIDRA||||END|
 pcodetest/c_src/IterativeProcessingDoWhile.test||GHIDRA||||END|

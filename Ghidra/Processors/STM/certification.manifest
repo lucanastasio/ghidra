@@ -1,0 +1,11 @@
+##VERSION: 2.0
+LICENSE.txt||GHIDRA||||END|
+Module.manifest||GHIDRA||||END|
+data/languages/ST7.cspec||GHIDRA||||END|
+data/languages/ST7.opinion||GHIDRA||||END|
+data/languages/ST7.pspec||GHIDRA||||END|
+data/languages/ST7.sinc||GHIDRA||||END|
+data/languages/ST70.slaspec||GHIDRA||||END|
+data/languages/ST72.slaspec||GHIDRA||||END|
+data/languages/STM.ldefs||GHIDRA||||END|
+data/manuals/ST7.idx||GHIDRA||||END|

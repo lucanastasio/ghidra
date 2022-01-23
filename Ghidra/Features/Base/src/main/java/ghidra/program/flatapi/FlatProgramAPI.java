@@ -34,6 +34,7 @@ import ghidra.app.script.GhidraScript;
 import ghidra.framework.main.AppInfo;
 import ghidra.framework.model.*;
 import ghidra.framework.plugintool.PluginTool;
+import ghidra.program.database.mem.FileBytes;
 import ghidra.program.model.address.*;
 import ghidra.program.model.data.*;
 import ghidra.program.model.listing.*;
@@ -1958,6 +1959,32 @@ public class FlatProgramAPI {
 		byte[] bytes = new byte[length];
 		currentProgram.getMemory().getBytes(address, bytes);
 		return bytes;
+	}
+
+	/**
+	 * Reads length number of bytes starting at the specified address as they appear in
+	 * the original binary.
+	 * Note: this could be inefficient if length is large
+	 * @param address the address to start reading
+	 * @param length the number of bytes to read
+	 * @return an array of bytes
+	 * @see ghidra.program.model.mem.Memory
+	 */
+	protected byte[] getOriginalBytes(Address address, int length) {
+		MemoryBlock stringMemoryBlock = currentProgram.getMemory().getBlock(address);
+		if (stringMemoryBlock == null)
+			return null;
+		FileBytes fileBytes = currentProgram.getMemory().getAllFileBytes().get(0);
+		MemoryBlockSourceInfo memoryInformation = stringMemoryBlock.getSourceInfos().get(0);
+		long fileOffset = address.getOffset() - memoryInformation.getMinAddress().getOffset()
+				+ memoryInformation.getFileBytesOffset();
+		try {
+			byte[] result = new byte[length];
+			fileBytes.getOriginalBytes(fileOffset, result);
+			return result;
+		} catch (IOException X) {
+			return null;
+		}
 	}
 
 	/**

@@ -753,3 +753,21 @@ PCodeTest({
     'language_id': 'ARCompact:LE:32:default',
     'ccflags': '-mcpu=arc700 -lgcc',
 })
+
+PCodeTest({
+    'name': 'WebAssembly',
+    'compile_exe': 'bin/clang',
+    'toolchain': 'LLVM/llvm',
+    'toolchain_type': 'llvm',
+    'ccflags': '-std=c99 --target=wasm32 -Wl,--export-dynamic -Wl,--no-gc-sections -Wl,--no-entry',
+    'language_id': 'Wasm:LE:32:default',
+})
+
+PCodeTest({
+    'name': 'WebAssembly_SIMD',
+    'compile_exe': 'bin/clang',
+    'toolchain': 'LLVM/llvm',
+    'toolchain_type': 'llvm',
+    'ccflags': '-std=c99 --target=wasm32 -msimd128 -Wl,--export-dynamic -Wl,--no-gc-sections -Wl,--no-entry',
+    'language_id': 'Wasm:LE:32:default',
+})

@@ -1988,7 +1988,10 @@ void SleighCompile::checkConsistency(void)
   if ((!warndeadtemps)&&(checker.getNumWriteNoRead() > 0)) {
     ostringstream msg;
     msg << dec << checker.getNumWriteNoRead();
-    msg << " operations wrote to temporaries that were not read";
+    if (checker.getNumWriteNoRead() == 1)
+      msg << " operation wrote to temporaries that were not read";
+    else
+      msg << " operations wrote to temporaries that were not read";
     reportWarning(msg.str());
     reportWarning("Use -t switch to list each individually");
   }
@@ -2088,7 +2091,7 @@ void SleighCompile::checkLocalCollisions(void)
   }
   if (collisionCount > 0) {
     ostringstream msg;
-    msg << dec << collisionCount << " constructors with local collisions between operands";
+    msg << dec << collisionCount << ((collisionCount == 1) ? " constructor" : " constructors") << " with local collisions between operands";
     reportWarning(msg.str());
     if (!warnalllocalcollisions)
       reportWarning("Use -c switch to list each individually");

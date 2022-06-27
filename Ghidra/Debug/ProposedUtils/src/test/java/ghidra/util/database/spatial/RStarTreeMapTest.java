@@ -28,6 +28,8 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -722,6 +724,9 @@ public class RStarTreeMapTest {
 
 	@Test
 	public void testQueryIntersecting() {
+		Iterable<IntRect> it = ()-> allRects(range);
+		Stream<IntRect> filterStream = StreamSupport.stream(it.spliterator(), false);
+
 		List<IntRect> expected = new ArrayList<>();
 		IteratorUtils.filteredIterator(allRects(range), queryRect::intersects)
 				.forEachRemaining(expected::add);
@@ -736,6 +741,9 @@ public class RStarTreeMapTest {
 
 	@Test
 	public void testQueryEnclosing() {
+		Iterable<IntRect> it = ()-> allRects(range);
+		Stream<IntRect> filterStream = StreamSupport.stream(it.spliterator(), false);
+
 		List<IntRect> expected = new ArrayList<>();
 		IteratorUtils.filteredIterator(allRects(range), queryRect::enclosedBy)
 				.forEachRemaining(expected::add);
@@ -750,6 +758,9 @@ public class RStarTreeMapTest {
 
 	@Test
 	public void testQueryEnclosed() {
+		Iterable<IntRect> it = ()-> allRects(range);
+		Stream<IntRect> filterStream = StreamSupport.stream(it.spliterator(), false);
+
 		List<IntRect> expected = new ArrayList<>();
 		IteratorUtils.filteredIterator(allRects(range), queryRect::encloses)
 				.forEachRemaining(expected::add);
@@ -764,8 +775,12 @@ public class RStarTreeMapTest {
 
 	@Test
 	public void testQueryIntersectionAndIntersection() {
+		Iterable<IntRect> it = ()-> allRects(range);
+		Stream<IntRect> filterStream = StreamSupport.stream(it.spliterator(), false);
+
 		IntRect queryRect1 = rect(1, 1, 12, 13);
 		IntRect queryRect2 = rect(4, 4, 12, 13);
+
 		List<IntRect> expected = new ArrayList<>();
 		IteratorUtils.filteredIterator(allRects(range),
 			r -> queryRect1.intersects(r) && queryRect2.intersects(r))

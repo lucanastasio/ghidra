@@ -18,6 +18,8 @@ package ghidra.trace.database.program;
 import java.awt.Color;
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import javax.swing.Icon;
 
@@ -292,7 +294,9 @@ public class DBTraceProgramViewBookmarkManager implements TraceProgramViewBookma
 	@SuppressWarnings("unchecked")
 	protected static <T, U extends T> Iterator<T> filteredIterator(Iterator<U> it,
 			Predicate<? super U> predicate) {
-		return (Iterator<T>) IteratorUtils.filteredIterator(it, e -> predicate.test(e));
+		Iterable<U> iterable = () -> it;
+		Stream<U> filterStream = StreamSupport.stream(iterable.spliterator(), false);
+		return (Iterator<T>) filterStream.filter(e -> predicate.test(e)).iterator();
 	}
 
 	@Override

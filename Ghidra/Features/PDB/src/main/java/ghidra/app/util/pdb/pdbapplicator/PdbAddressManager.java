@@ -371,7 +371,7 @@ public class PdbAddressManager {
 		SymbolIterator iter = program.getSymbolTable().getAllSymbols(false);
 		while (iter.hasNext()) {
 			Symbol symbol = iter.next();
-			String name = symbol.getPath().toString();
+			String name = Arrays.toString(symbol.getPath());
 			Address address = symbol.getAddress();
 			Address existingAddress = addressByPreExistingSymbolName.get(name);
 			if (existingAddress == null) {

@@ -1,7 +1,7 @@
 <?xml version='1.0'?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
-<xsl:import href="http://docbook.sourceforge.net/release/xsl/current/html/chunk.xsl"/>
+<xsl:import href="http://docbook.sourceforge.net/release/xsl/1.79.1/html/chunk.xsl"/>
 
 <xsl:include href="cspec_common.xsl" />
 

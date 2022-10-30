@@ -46,6 +46,7 @@
   UserOpSymbol *useropsym;
   LabelSymbol *labelsym;
   StartSymbol *startsym;
+  OffsetSymbol *offsetsym;
   EndSymbol *endsym;
   Next2Symbol *next2sym;
   OperandSymbol *operandsym;
@@ -85,6 +86,7 @@
 %token <varsym> VARSYM
 %token <operandsym> OPERANDSYM
 %token <startsym> STARTSYM
+%token <offsetsym> OFFSETSYM
 %token <endsym> ENDSYM
 %token <next2sym> NEXT2SYM
 %token <labelsym> LABELSYM
@@ -232,6 +234,7 @@ label: '<' LABELSYM '>'         { $$ = $2; }
 specificsymbol: VARSYM		{ $$ = $1; }
   | OPERANDSYM			{ $$ = $1; }
   | STARTSYM			{ $$ = $1; }
+  | OFFSETSYM			{ $$ = $1; }
   | ENDSYM			{ $$ = $1; }
   | NEXT2SYM			{ $$ = $1; }
   ;
@@ -753,6 +756,9 @@ int4 PcodeSnippet::lex(void)
       case SleighSymbol::start_symbol:
 	yylval.startsym = (StartSymbol *)sym;
 	return STARTSYM;
+      case SleighSymbol::offset_symbol:
+	yylval.offsetsym = (OffsetSymbol *)sym;
+	return OFFSETSYM;
       case SleighSymbol::end_symbol:
 	yylval.endsym = (EndSymbol *)sym;
 	return ENDSYM;

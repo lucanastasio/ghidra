@@ -57,6 +57,7 @@
   LabelSymbol *labelsym;
   SubtableSymbol *subtablesym;
   StartSymbol *startsym;
+  OffsetSymbol *offsetsym;
   EndSymbol *endsym;
   Next2Symbol *next2sym;
   OperandSymbol *operandsym;
@@ -121,6 +122,7 @@
 %token <varlistsym> VARLISTSYM
 %token <operandsym> OPERANDSYM
 %token <startsym> STARTSYM
+%token <offsetsym> OFFSETSYM
 %token <endsym> ENDSYM
 %token <next2sym> NEXT2SYM
 %token <macrosym> MACROSYM
@@ -506,6 +508,7 @@ specificsymbol: VARSYM		{ $$ = $1; }
   | SPECSYM                     { $$ = $1; }
   | OPERANDSYM			{ $$ = $1; }
   | STARTSYM			{ $$ = $1; }
+  | OFFSETSYM			{ $$ = $1; }
   | ENDSYM			{ $$ = $1; }
   | NEXT2SYM			{ $$ = $1; }
   ;
@@ -581,6 +584,7 @@ anysymbol: SPACESYM		{ $$ = $1; }
   | VARLISTSYM			{ $$ = $1; }
   | OPERANDSYM			{ $$ = $1; }
   | STARTSYM			{ $$ = $1; }
+  | OFFSETSYM			{ $$ = $1; }
   | ENDSYM			{ $$ = $1; }
   | NEXT2SYM			{ $$ = $1; }
   | BITSYM                      { $$ = $1; }

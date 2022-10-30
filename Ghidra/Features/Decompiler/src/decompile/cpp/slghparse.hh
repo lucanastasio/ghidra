@@ -164,11 +164,12 @@ extern int yydebug;
     VARLISTSYM = 365,              /* VARLISTSYM  */
     OPERANDSYM = 366,              /* OPERANDSYM  */
     STARTSYM = 367,                /* STARTSYM  */
-    ENDSYM = 368,                  /* ENDSYM  */
-    NEXT2SYM = 369,                /* NEXT2SYM  */
-    MACROSYM = 370,                /* MACROSYM  */
-    LABELSYM = 371,                /* LABELSYM  */
-    SUBTABLESYM = 372              /* SUBTABLESYM  */
+    OFFSETSYM = 368,               /* OFFSETSYM  */
+    ENDSYM = 369,                  /* ENDSYM  */
+    NEXT2SYM = 370,                /* NEXT2SYM  */
+    MACROSYM = 371,                /* MACROSYM  */
+    LABELSYM = 372,                /* LABELSYM  */
+    SUBTABLESYM = 373              /* SUBTABLESYM  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -208,6 +209,7 @@ union YYSTYPE
   LabelSymbol *labelsym;
   SubtableSymbol *subtablesym;
   StartSymbol *startsym;
+  OffsetSymbol *offsetsym;
   EndSymbol *endsym;
   Next2Symbol *next2sym;
   OperandSymbol *operandsym;

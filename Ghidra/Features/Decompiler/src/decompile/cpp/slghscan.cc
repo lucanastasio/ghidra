@@ -1311,6 +1311,9 @@ int4 find_symbol(void) {
   case SleighSymbol::start_symbol:
     yylval.startsym = (StartSymbol *)sym;
     return STARTSYM;
+  case SleighSymbol::offset_symbol:
+    yylval.offsetsym = (OffsetSymbol *)sym;
+    return OFFSETSYM;
   case SleighSymbol::end_symbol:
     yylval.endsym = (EndSymbol *)sym;
     return ENDSYM;

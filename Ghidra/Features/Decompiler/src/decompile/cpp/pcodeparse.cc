@@ -87,6 +87,8 @@
 
 #include "pcodeparse.hh"
 
+using namespace std;
+
   //#define YYERROR_VERBOSE
   extern int pcodelex(void);
   static PcodeSnippet *pcode;

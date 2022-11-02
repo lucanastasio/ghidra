@@ -20,7 +20,7 @@
 
 class TokenPattern {
   Pattern *pattern;
-  vector<Token *> toklist;
+  std::vector<Token *> toklist;
   bool leftellipsis;
   bool rightellipsis;
   static PatternBlock *buildSingle(int4 startbit,int4 endbit,uintm byteval);
@@ -61,13 +61,13 @@ protected:
 public:
   PatternExpression(void) { refcount = 0; }
   virtual intb getValue(ParserWalker &walker) const=0;
-  virtual TokenPattern genMinPattern(const vector<TokenPattern> &ops) const=0;
-  virtual void listValues(vector<const PatternValue *> &list) const=0;
-  virtual void getMinMax(vector<intb> &minlist,vector<intb> &maxlist) const=0;
-  virtual intb getSubValue(const vector<intb> &replace,int4 &listpos) const=0;
-  virtual void saveXml(ostream &s) const=0;
+  virtual TokenPattern genMinPattern(const std::vector<TokenPattern> &ops) const=0;
+  virtual void listValues(std::vector<const PatternValue *> &list) const=0;
+  virtual void getMinMax(std::vector<intb> &minlist,std::vector<intb> &maxlist) const=0;
+  virtual intb getSubValue(const std::vector<intb> &replace,int4 &listpos) const=0;
+  virtual void saveXml(std::ostream &s) const=0;
   virtual void restoreXml(const Element *el,Translate *trans)=0;
-  intb getSubValue(const vector<intb> &replace) {
+  intb getSubValue(const std::vector<intb> &replace) {
     int4 listpos = 0;
     return getSubValue(replace,listpos); }
   void layClaim(void) { refcount += 1; }
@@ -78,10 +78,10 @@ public:
 class PatternValue : public PatternExpression {
 public:
   virtual TokenPattern genPattern(intb val) const=0;
-  virtual void listValues(vector<const PatternValue *> &list) const { list.push_back(this); }
-  virtual void getMinMax(vector<intb> &minlist,vector<intb> &maxlist) const { 
+  virtual void listValues(std::vector<const PatternValue *> &list) const { list.push_back(this); }
+  virtual void getMinMax(std::vector<intb> &minlist,std::vector<intb> &maxlist) const {
     minlist.push_back(minValue()); maxlist.push_back(maxValue()); }
-  virtual intb getSubValue(const vector<intb> &replace,int4 &listpos) const { return replace[listpos++]; }
+  virtual intb getSubValue(const std::vector<intb> &replace,int4 &listpos) const { return replace[listpos++]; }
   virtual intb minValue(void) const=0;
   virtual intb maxValue(void) const=0;
 };
@@ -98,11 +98,11 @@ public:
   TokenField(void) {}		// For use with restoreXml
   TokenField(Token *tk,bool s,int4 bstart,int4 bend,uint4 tbase);
   virtual intb getValue(ParserWalker &walker) const;
-  virtual TokenPattern genMinPattern(const vector<TokenPattern> &ops) const { return TokenPattern(tok); }
+  virtual TokenPattern genMinPattern(const std::vector<TokenPattern> &ops) const { return TokenPattern(tok); }
   virtual TokenPattern genPattern(intb val) const;
   virtual intb minValue(void) const { return 0; }
   virtual intb maxValue(void) const { intb res=0; res=~res; zero_extend(res,bitend-bitstart); return res; }
-  virtual void saveXml(ostream &s) const;
+  virtual void saveXml(std::ostream &s) const;
   virtual void restoreXml(const Element *el,Translate *trans);
 };
 
@@ -120,11 +120,11 @@ public:
   bool getSignBit(void) const { return signbit; }
   uint4 getBase(void) const { return base; }
   virtual intb getValue(ParserWalker &walker) const;
-  virtual TokenPattern genMinPattern(const vector<TokenPattern> &ops) const { return TokenPattern(); }
+  virtual TokenPattern genMinPattern(const std::vector<TokenPattern> &ops) const { return TokenPattern(); }
   virtual TokenPattern genPattern(intb val) const;
   virtual intb minValue(void) const { return 0; }
   virtual intb maxValue(void) const { intb res=0; res=~res; zero_extend(res,(endbit-startbit)); return res; }
-  virtual void saveXml(ostream &s) const;
+  virtual void saveXml(std::ostream &s) const;
   virtual void restoreXml(const Element *el,Translate *trans);
 };
 
@@ -134,11 +134,11 @@ public:
   ConstantValue(void) {}	// For use with restoreXml
   ConstantValue(intb v) { val = v; }
   virtual intb getValue(ParserWalker &walker) const { return val; }
-  virtual TokenPattern genMinPattern(const vector<TokenPattern> &ops) const { return TokenPattern(); }
+  virtual TokenPattern genMinPattern(const std::vector<TokenPattern> &ops) const { return TokenPattern(); }
   virtual TokenPattern genPattern(intb v) const { return TokenPattern(val==v); }
   virtual intb minValue(void) const { return val; }
   virtual intb maxValue(void) const { return val; }
-  virtual void saveXml(ostream &s) const;
+  virtual void saveXml(std::ostream &s) const;
   virtual void restoreXml(const Element *el,Translate *trans);
 };
 
@@ -147,11 +147,11 @@ public:
   StartInstructionValue(void) {}
   virtual intb getValue(ParserWalker &walker) const {
     return (intb)AddrSpace::byteToAddress(walker.getAddr().getOffset(),walker.getAddr().getSpace()->getWordSize()); }
-  virtual TokenPattern genMinPattern(const vector<TokenPattern> &ops) const { return TokenPattern(); }
+  virtual TokenPattern genMinPattern(const std::vector<TokenPattern> &ops) const { return TokenPattern(); }
   virtual TokenPattern genPattern(intb val) const { return TokenPattern(); }
   virtual intb minValue(void) const { return (intb)0; }
   virtual intb maxValue(void) const { return (intb)0; }
-  virtual void saveXml(ostream &s) const { s << "<start_exp/>"; }
+  virtual void saveXml(std::ostream &s) const { s << "<start_exp/>"; }
   virtual void restoreXml(const Element *el,Translate *trans) {}
 };
 
@@ -174,11 +174,11 @@ public:
   EndInstructionValue(void) {}
   virtual intb getValue(ParserWalker &walker) const {
     return (intb)AddrSpace::byteToAddress(walker.getNaddr().getOffset(),walker.getNaddr().getSpace()->getWordSize()); }
-  virtual TokenPattern genMinPattern(const vector<TokenPattern> &ops) const { return TokenPattern(); }
+  virtual TokenPattern genMinPattern(const std::vector<TokenPattern> &ops) const { return TokenPattern(); }
   virtual TokenPattern genPattern(intb val) const { return TokenPattern(); }
   virtual intb minValue(void) const { return (intb)0; }
   virtual intb maxValue(void) const { return (intb)0; }
-  virtual void saveXml(ostream &s) const { s << "<end_exp/>"; }
+  virtual void saveXml(std::ostream &s) const { s << "<end_exp/>"; }
   virtual void restoreXml(const Element *el,Translate *trans) {}
 };
 
@@ -187,11 +187,11 @@ public:
   Next2InstructionValue(void) {}
   virtual intb getValue(ParserWalker &walker) const {
     return (intb)AddrSpace::byteToAddress(walker.getN2addr().getOffset(),walker.getN2addr().getSpace()->getWordSize()); }
-  virtual TokenPattern genMinPattern(const vector<TokenPattern> &ops) const { return TokenPattern(); }
+  virtual TokenPattern genMinPattern(const std::vector<TokenPattern> &ops) const { return TokenPattern(); }
   virtual TokenPattern genPattern(intb val) const { return TokenPattern(); }
   virtual intb minValue(void) const { return (intb)0; }
   virtual intb maxValue(void) const { return (intb)0; }
-  virtual void saveXml(ostream &s) const { s << "<next2_exp/>"; }
+  virtual void saveXml(std::ostream &s) const { s << "<next2_exp/>"; }
   virtual void restoreXml(const Element *el,Translate *trans) {}
 };
 
@@ -205,14 +205,14 @@ public:
   OperandValue(int4 ind,Constructor *c) { index = ind; ct = c; }
   void changeIndex(int4 newind) { index = newind; }
   bool isConstructorRelative(void) const;
-  const string &getName(void) const;
+  const std::string &getName(void) const;
   virtual TokenPattern genPattern(intb val) const;
-  virtual TokenPattern genMinPattern(const vector<TokenPattern> &ops) const { return ops[index]; }
+  virtual TokenPattern genMinPattern(const std::vector<TokenPattern> &ops) const { return ops[index]; }
   virtual intb getValue(ParserWalker &walker) const;
-  virtual intb getSubValue(const vector<intb> &replace,int4 &listpos) const;
+  virtual intb getSubValue(const std::vector<intb> &replace,int4 &listpos) const;
   virtual intb minValue(void) const;
   virtual intb maxValue(void) const;
-  virtual void saveXml(ostream &s) const;
+  virtual void saveXml(std::ostream &s) const;
   virtual void restoreXml(const Element *el,Translate *trans);
 };
 
@@ -225,12 +225,12 @@ public:
   BinaryExpression(PatternExpression *l,PatternExpression *r);
   PatternExpression *getLeft(void) const { return left; }
   PatternExpression *getRight(void) const { return right; }
-  virtual TokenPattern genMinPattern(const vector<TokenPattern> &ops) const { return TokenPattern(); }
-  virtual void listValues(vector<const PatternValue *> &list) const {
+  virtual TokenPattern genMinPattern(const std::vector<TokenPattern> &ops) const { return TokenPattern(); }
+  virtual void listValues(std::vector<const PatternValue *> &list) const {
     left->listValues(list); right->listValues(list); }
-  virtual void getMinMax(vector<intb> &minlist,vector<intb> &maxlist) const {
+  virtual void getMinMax(std::vector<intb> &minlist,std::vector<intb> &maxlist) const {
     left->getMinMax(minlist,maxlist); right->getMinMax(minlist,maxlist); }
-  virtual void saveXml(ostream &s) const;
+  virtual void saveXml(std::ostream &s) const;
   virtual void restoreXml(const Element *el,Translate *trans);
 };
 
@@ -242,13 +242,13 @@ public:
   UnaryExpression(void) { unary = (PatternExpression *)0; } // For use with restoreXml
   UnaryExpression(PatternExpression *u);
   PatternExpression *getUnary(void) const { return unary; }
-  virtual TokenPattern genMinPattern(const vector<TokenPattern> &ops) const { return TokenPattern(); }
-  virtual void listValues(vector<const PatternValue *> &list) const {
+  virtual TokenPattern genMinPattern(const std::vector<TokenPattern> &ops) const { return TokenPattern(); }
+  virtual void listValues(std::vector<const PatternValue *> &list) const {
     unary->listValues(list); }
-  virtual void getMinMax(vector<intb> &minlist,vector<intb> &maxlist) const {
+  virtual void getMinMax(std::vector<intb> &minlist,std::vector<intb> &maxlist) const {
     unary->getMinMax(minlist,maxlist);
   }
-  virtual void saveXml(ostream &s) const;
+  virtual void saveXml(std::ostream &s) const;
   virtual void restoreXml(const Element *el,Translate *trans);
 };  
 
@@ -257,8 +257,8 @@ public:
   PlusExpression(void) {}	// For use by restoreXml
   PlusExpression(PatternExpression *l,PatternExpression *r) : BinaryExpression(l,r) {}
   virtual intb getValue(ParserWalker &walker) const;
-  virtual intb getSubValue(const vector<intb> &replace,int4 &listpos) const;
-  virtual void saveXml(ostream &s) const;
+  virtual intb getSubValue(const std::vector<intb> &replace,int4 &listpos) const;
+  virtual void saveXml(std::ostream &s) const;
 };
   
 class SubExpression : public BinaryExpression {
@@ -266,8 +266,8 @@ public:
   SubExpression(void) {}	// For use with restoreXml
   SubExpression(PatternExpression *l,PatternExpression *r) : BinaryExpression(l,r) {}
   virtual intb getValue(ParserWalker &walker) const;
-  virtual intb getSubValue(const vector<intb> &replace,int4 &listpos) const;
-  virtual void saveXml(ostream &s) const;
+  virtual intb getSubValue(const std::vector<intb> &replace,int4 &listpos) const;
+  virtual void saveXml(std::ostream &s) const;
 };
   
 class MultExpression : public BinaryExpression {
@@ -275,8 +275,8 @@ public:
   MultExpression(void) {}	// For use with restoreXml
   MultExpression(PatternExpression *l,PatternExpression *r) : BinaryExpression(l,r) {}
   virtual intb getValue(ParserWalker &walker) const;
-  virtual intb getSubValue(const vector<intb> &replace,int4 &listpos) const;
-  virtual void saveXml(ostream &s) const;
+  virtual intb getSubValue(const std::vector<intb> &replace,int4 &listpos) const;
+  virtual void saveXml(std::ostream &s) const;
 };
   
 class LeftShiftExpression : public BinaryExpression {
@@ -284,8 +284,8 @@ public:
   LeftShiftExpression(void) {}
   LeftShiftExpression(PatternExpression *l,PatternExpression *r) : BinaryExpression(l,r) {}
   virtual intb getValue(ParserWalker &walker) const;
-  virtual intb getSubValue(const vector<intb> &replace,int4 &listpos) const;
-  virtual void saveXml(ostream &s) const;
+  virtual intb getSubValue(const std::vector<intb> &replace,int4 &listpos) const;
+  virtual void saveXml(std::ostream &s) const;
 };
 
 class RightShiftExpression : public BinaryExpression {
@@ -293,8 +293,8 @@ public:
   RightShiftExpression(void) {}
   RightShiftExpression(PatternExpression *l,PatternExpression *r) : BinaryExpression(l,r) {}
   virtual intb getValue(ParserWalker &walker) const;
-  virtual intb getSubValue(const vector<intb> &replace,int4 &listpos) const;
-  virtual void saveXml(ostream &s) const;
+  virtual intb getSubValue(const std::vector<intb> &replace,int4 &listpos) const;
+  virtual void saveXml(std::ostream &s) const;
 };
 
 class AndExpression : public BinaryExpression {
@@ -302,8 +302,8 @@ public:
   AndExpression(void) {}
   AndExpression(PatternExpression *l,PatternExpression *r) : BinaryExpression(l,r) {}
   virtual intb getValue(ParserWalker &walker) const;
-  virtual intb getSubValue(const vector<intb> &replace,int4 &listpos) const;
-  virtual void saveXml(ostream &s) const;
+  virtual intb getSubValue(const std::vector<intb> &replace,int4 &listpos) const;
+  virtual void saveXml(std::ostream &s) const;
 };
   
 class OrExpression : public BinaryExpression {
@@ -311,8 +311,8 @@ public:
   OrExpression(void) {}
   OrExpression(PatternExpression *l,PatternExpression *r) : BinaryExpression(l,r) {}
   virtual intb getValue(ParserWalker &walker) const;
-  virtual intb getSubValue(const vector<intb> &replace,int4 &listpos) const;
-  virtual void saveXml(ostream &s) const;
+  virtual intb getSubValue(const std::vector<intb> &replace,int4 &listpos) const;
+  virtual void saveXml(std::ostream &s) const;
 };
   
 class XorExpression : public BinaryExpression {
@@ -320,8 +320,8 @@ public:
   XorExpression(void) {}
   XorExpression(PatternExpression *l,PatternExpression *r) : BinaryExpression(l,r) {}
   virtual intb getValue(ParserWalker &walker) const;
-  virtual intb getSubValue(const vector<intb> &replace,int4 &listpos) const;
-  virtual void saveXml(ostream &s) const;
+  virtual intb getSubValue(const std::vector<intb> &replace,int4 &listpos) const;
+  virtual void saveXml(std::ostream &s) const;
 };
 
 class DivExpression : public BinaryExpression {
@@ -329,8 +329,8 @@ public:
   DivExpression(void) {}
   DivExpression(PatternExpression *l,PatternExpression *r) : BinaryExpression(l,r) {}
   virtual intb getValue(ParserWalker &walker) const;
-  virtual intb getSubValue(const vector<intb> &replace,int4 &listpos) const;
-  virtual void saveXml(ostream &s) const;
+  virtual intb getSubValue(const std::vector<intb> &replace,int4 &listpos) const;
+  virtual void saveXml(std::ostream &s) const;
 };
 
 class MinusExpression : public UnaryExpression {
@@ -338,8 +338,8 @@ public:
   MinusExpression(void) {}
   MinusExpression(PatternExpression *u) : UnaryExpression(u) {}
   virtual intb getValue(ParserWalker &walker) const;
-  virtual intb getSubValue(const vector<intb> &replace,int4 &listpos) const;
-  virtual void saveXml(ostream &s) const;
+  virtual intb getSubValue(const std::vector<intb> &replace,int4 &listpos) const;
+  virtual void saveXml(std::ostream &s) const;
 };  
 
 class NotExpression : public UnaryExpression {
@@ -347,13 +347,13 @@ public:
   NotExpression(void) {}
   NotExpression(PatternExpression *u) : UnaryExpression(u) {}
   virtual intb getValue(ParserWalker &walker) const;
-  virtual intb getSubValue(const vector<intb> &replace,int4 &listpos) const;
-  virtual void saveXml(ostream &s) const;
+  virtual intb getSubValue(const std::vector<intb> &replace,int4 &listpos) const;
+  virtual void saveXml(std::ostream &s) const;
 };  
 
 struct OperandResolve {
-  vector<OperandSymbol *> &operands;
-  OperandResolve(vector<OperandSymbol *> &ops) : operands(ops) {
+  std::vector<OperandSymbol *> &operands;
+  OperandResolve(std::vector<OperandSymbol *> &ops) : operands(ops) {
     base=-1; offset=0; cur_rightmost = -1; size = 0; }
   int4 base;		// Current base operand (as we traverse the pattern equation from left to right)
   int4 offset;		// Bytes we have traversed from the LEFT edge of the current base
@@ -371,9 +371,9 @@ protected:
 public:
   PatternEquation(void) { refcount = 0; }
   const TokenPattern &getTokenPattern(void) const { return resultpattern; }
-  virtual void genPattern(const vector<TokenPattern> &ops) const=0;
+  virtual void genPattern(const std::vector<TokenPattern> &ops) const=0;
   virtual bool resolveOperandLeft(OperandResolve &state) const=0;
-  virtual void operandOrder(Constructor *ct,vector<OperandSymbol *> &order) const {}
+  virtual void operandOrder(Constructor *ct,std::vector<OperandSymbol *> &order) const {}
   void layClaim(void) { refcount += 1; }
   static void release(PatternEquation *pateq);
 };
@@ -382,9 +382,9 @@ class OperandEquation : public PatternEquation { // Equation that defines operan
   int4 index;
 public:
   OperandEquation(int4 ind) { index = ind; }
-  virtual void genPattern(const vector<TokenPattern> &ops) const;
+  virtual void genPattern(const std::vector<TokenPattern> &ops) const;
   virtual bool resolveOperandLeft(OperandResolve &state) const;
-  virtual void operandOrder(Constructor *ct,vector<OperandSymbol *> &order) const;
+  virtual void operandOrder(Constructor *ct,std::vector<OperandSymbol *> &order) const;
 };
 
 class UnconstrainedEquation : public PatternEquation { // Unconstrained equation, just get tokens
@@ -393,7 +393,7 @@ protected:
   virtual ~UnconstrainedEquation(void);
 public:
   UnconstrainedEquation(PatternExpression *p);
-  virtual void genPattern(const vector<TokenPattern> &ops) const;
+  virtual void genPattern(const std::vector<TokenPattern> &ops) const;
   virtual bool resolveOperandLeft(OperandResolve &state) const;
 };
 
@@ -410,37 +410,37 @@ public:
 class EqualEquation : public ValExpressEquation {
 public:
   EqualEquation(PatternValue *l,PatternExpression *r) : ValExpressEquation(l,r) {}
-  virtual void genPattern(const vector<TokenPattern> &ops) const;
+  virtual void genPattern(const std::vector<TokenPattern> &ops) const;
 };
 
 class NotEqualEquation : public ValExpressEquation {
 public:
   NotEqualEquation(PatternValue *l,PatternExpression *r) : ValExpressEquation(l,r) {}
-  virtual void genPattern(const vector<TokenPattern> &ops) const;
+  virtual void genPattern(const std::vector<TokenPattern> &ops) const;
 };
 
 class LessEquation : public ValExpressEquation {
 public:
   LessEquation(PatternValue *l,PatternExpression *r) : ValExpressEquation(l,r) {}
-  virtual void genPattern(const vector<TokenPattern> &ops) const;
+  virtual void genPattern(const std::vector<TokenPattern> &ops) const;
 };
 
 class LessEqualEquation : public ValExpressEquation {
 public:
   LessEqualEquation(PatternValue *l,PatternExpression *r) : ValExpressEquation(l,r) {}
-  virtual void genPattern(const vector<TokenPattern> &ops) const;
+  virtual void genPattern(const std::vector<TokenPattern> &ops) const;
 };
 
 class GreaterEquation : public ValExpressEquation {
 public:
   GreaterEquation(PatternValue *l,PatternExpression *r) : ValExpressEquation(l,r) {}
-  virtual void genPattern(const vector<TokenPattern> &ops) const;
+  virtual void genPattern(const std::vector<TokenPattern> &ops) const;
 };
 
 class GreaterEqualEquation : public ValExpressEquation {
 public:
   GreaterEqualEquation(PatternValue *l,PatternExpression *r) : ValExpressEquation(l,r) {}
-  virtual void genPattern(const vector<TokenPattern> &ops) const;
+  virtual void genPattern(const std::vector<TokenPattern> &ops) const;
 };
 
 class EquationAnd : public PatternEquation { // Pattern Equations ANDed together
@@ -450,9 +450,9 @@ protected:
   virtual ~EquationAnd(void);
 public:
   EquationAnd(PatternEquation *l,PatternEquation *r);
-  virtual void genPattern(const vector<TokenPattern> &ops) const;
+  virtual void genPattern(const std::vector<TokenPattern> &ops) const;
   virtual bool resolveOperandLeft(OperandResolve &state) const;
-  virtual void operandOrder(Constructor *ct,vector<OperandSymbol *> &order) const;
+  virtual void operandOrder(Constructor *ct,std::vector<OperandSymbol *> &order) const;
 };
 
 class EquationOr : public PatternEquation { // Pattern Equations ORed together
@@ -462,9 +462,9 @@ protected:
   virtual ~EquationOr(void);
 public:
   EquationOr(PatternEquation *l,PatternEquation *r);
-  virtual void genPattern(const vector<TokenPattern> &ops) const;
+  virtual void genPattern(const std::vector<TokenPattern> &ops) const;
   virtual bool resolveOperandLeft(OperandResolve &state) const;
-  virtual void operandOrder(Constructor *ct,vector<OperandSymbol *> &order) const;
+  virtual void operandOrder(Constructor *ct,std::vector<OperandSymbol *> &order) const;
 };
 
 class EquationCat : public PatternEquation { // Pattern Equations concatenated
@@ -474,9 +474,9 @@ protected:
   virtual ~EquationCat(void);
 public:
   EquationCat(PatternEquation *l,PatternEquation *r);
-  virtual void genPattern(const vector<TokenPattern> &ops) const;
+  virtual void genPattern(const std::vector<TokenPattern> &ops) const;
   virtual bool resolveOperandLeft(OperandResolve &state) const;
-  virtual void operandOrder(Constructor *ct,vector<OperandSymbol *> &order) const;
+  virtual void operandOrder(Constructor *ct,std::vector<OperandSymbol *> &order) const;
 };
 
 class EquationLeftEllipsis : public PatternEquation { // Equation preceded by ellipses
@@ -485,9 +485,9 @@ protected:
   virtual ~EquationLeftEllipsis(void) { PatternEquation::release(eq); }
 public:
   EquationLeftEllipsis(PatternEquation *e) { (eq=e)->layClaim(); }
-  virtual void genPattern(const vector<TokenPattern> &ops) const;
+  virtual void genPattern(const std::vector<TokenPattern> &ops) const;
   virtual bool resolveOperandLeft(OperandResolve &state) const;
-  virtual void operandOrder(Constructor *ct,vector<OperandSymbol *> &order) const;
+  virtual void operandOrder(Constructor *ct,std::vector<OperandSymbol *> &order) const;
 };
 
 class EquationRightEllipsis : public PatternEquation { // Equation preceded by ellipses
@@ -496,9 +496,9 @@ protected:
   virtual ~EquationRightEllipsis(void) { PatternEquation::release(eq); }
 public:
   EquationRightEllipsis(PatternEquation *e) { (eq=e)->layClaim(); }
-  virtual void genPattern(const vector<TokenPattern> &ops) const;
+  virtual void genPattern(const std::vector<TokenPattern> &ops) const;
   virtual bool resolveOperandLeft(OperandResolve &state) const;
-  virtual void operandOrder(Constructor *ct,vector<OperandSymbol *> &order) const;
+  virtual void operandOrder(Constructor *ct,std::vector<OperandSymbol *> &order) const;
 };
 
 #endif

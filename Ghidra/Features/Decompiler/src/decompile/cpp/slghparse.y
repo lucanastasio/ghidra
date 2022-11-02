@@ -16,6 +16,8 @@
 %{
 #include "slgh_compile.hh"
 
+using namespace std;
+
 #define YYERROR_VERBOSE
 
   extern SleighCompile *slgh;
@@ -30,24 +32,24 @@
   char ch;
   uintb *i;
   intb *big;
-  string *str;
-  vector<string> *strlist;
-  vector<intb> *biglist;
-  vector<ExprTree *> *param;
+  std::string *str;
+  std::vector<std::string> *strlist;
+  std::vector<intb> *biglist;
+  std::vector<ExprTree *> *param;
   SpaceQuality *spacequal;
   FieldQuality *fieldqual;
   StarQuality *starqual;
   VarnodeTpl *varnode;
   ExprTree *tree;
-  vector<OpTpl *> *stmt;
+  std::vector<OpTpl *> *stmt;
   ConstructTpl *sem;
   SectionVector *sectionstart;
   Constructor *construct;
   PatternEquation *pateq;
   PatternExpression *patexp;
 
-  vector<SleighSymbol *> *symlist;
-  vector<ContextChange *> *contop;
+  std::vector<SleighSymbol *> *symlist;
+  std::vector<ContextChange *> *contop;
   SleighSymbol *anysym;
   SpaceSymbol *spacesym;
   SectionSymbol *sectionsym;

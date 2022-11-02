@@ -70,6 +70,8 @@
 
 #include "slgh_compile.hh"
 
+using namespace std;
+
 #define YYERROR_VERBOSE
 
   extern SleighCompile *slgh;

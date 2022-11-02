@@ -16,6 +16,8 @@
 #include "callgraph.hh"
 #include "funcdata.hh"
 
+using namespace std;
+
 ElementId ELEM_CALLGRAPH = ElementId("callgraph",228);
 ElementId ELEM_NODE = ElementId("node",229);
 

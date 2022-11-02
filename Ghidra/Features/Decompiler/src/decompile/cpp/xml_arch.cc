@@ -15,6 +15,8 @@
  */
 #include "xml_arch.hh"
 
+using namespace std;
+
 ElementId ELEM_XML_SAVEFILE = ElementId("xml_savefile",238);
 
 // Constructing the singleton registers the capability

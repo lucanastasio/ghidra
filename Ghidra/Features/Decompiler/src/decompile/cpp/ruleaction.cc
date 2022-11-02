@@ -19,6 +19,8 @@
 #include "rangeutil.hh"
 #include <climits>
 
+using namespace std;
+
 /// \class RuleEarlyRemoval
 /// \brief Get rid of unused PcodeOp objects where we can guarantee the output is unused
 int4 RuleEarlyRemoval::applyOp(PcodeOp *op,Funcdata &data)

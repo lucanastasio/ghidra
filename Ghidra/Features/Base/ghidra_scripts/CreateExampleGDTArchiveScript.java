@@ -470,8 +470,6 @@ public class CreateExampleGDTArchiveScript extends GhidraScript {
 				"-D_USE_ATTRIBUTES_FOR_SAL",
 				"-D_CRTBLD",
 				"-D_OPENMP_NOFORCE_MANIFEST",
-				"-DSTRSAFE_LIB",
-				"-DSTRSAFE_LIB_IMPL",
 				"-DLPSKBINFO=LPARAM",
 				"-D_WCHAR_T_DEFINED",
 				"-DCONST=const",

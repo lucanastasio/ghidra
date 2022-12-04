@@ -36,6 +36,7 @@ import ghidra.program.model.util.CodeUnitInsertionException;
 import ghidra.program.util.AbstractProgramContext;
 import ghidra.program.util.ProgramContextImpl;
 import ghidra.util.Msg;
+import ghidra.util.SkipManager;
 import ghidra.util.SystemUtilities;
 import ghidra.util.exception.CancelledException;
 import ghidra.util.task.TaskMonitor;
@@ -664,11 +665,17 @@ public class Disassembler implements DisassemblerConflictHandler {
 		Address fallThruAddr = firstBlock.getStartAddress(); // allow us to enter loop with initial block
 
 		InstructionBlock nextBlock;
+		SkipManager m = SkipManager.getInstance();
 		while ((nextBlock = disassemblerQueue.getNextBlockToBeDisassembled(fallThruAddr,
 			programMemBuffer.getMemory(), monitor)) != null) {
 
 			Address blockAddr = disassemblerQueue.getDisassemblyAddress();
-
+			boolean shouldSkip = m.shouldSkip(blockAddr.getOffset());
+			if (shouldSkip) {
+				programMemBuffer.setPosition(blockAddr);
+				fallThruAddr = nextBlock.getFallThrough();
+				continue;
+			}
 			if (!disassemblerContext.isFlowActive()) {
 				disassemblerContext.flowStart(blockAddr);
 			}

@@ -15,6 +15,15 @@
  */
 %define api.prefix {xml}
 %{
+/* Substitute the variable and function names.  */
+#define yyparse         xmlparse
+#define yylex           xmllex
+#define yyerror         xmlerror
+#define yydebug         xmldebug
+#define yynerrs         xmlnerrs
+#define yylval          xmllval
+#define yychar          xmlchar
+
 #include "xml.hh"
 // CharData mode   look for '<' '&' or "]]>"
 // Name mode       look for non-name char

@@ -15,6 +15,15 @@
  */
 %define api.prefix {pcode}
 %{
+/* Substitute the variable and function names.  */
+#define yyparse         pcodeparse
+#define yylex           pcodelex
+#define yyerror         pcodeerror
+#define yydebug         pcodedebug
+#define yynerrs         pcodenerrs
+#define yylval          pcodelval
+#define yychar          pcodechar
+
 #include "pcodeparse.hh"
 
   //#define YYERROR_VERBOSE

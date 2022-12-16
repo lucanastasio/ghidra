@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.*;
 
 import ghidra.app.util.bin.BinaryReader;
+import ghidra.app.util.bin.StructConverter;
 import ghidra.program.model.data.*;
 import ghidra.util.exception.DuplicateNameException;
 import ghidra.util.exception.NotFoundException;
@@ -33,25 +34,18 @@ import ghidra.util.exception.NotFoundException;
  * using {@link ElfHeader#adjustAddressForPrelink(long)}.  If a pre-link adjustment is not applicable, 
  * this adjustment will have no affect.
  */
-public class ElfDynamicTable implements ElfFileSection {
+public class ElfDynamicTable implements StructConverter {
 
 	private List<ElfDynamic> dynamics = new ArrayList<ElfDynamic>();
 
 	private ElfHeader header;
-	private long fileOffset;
-	private long addrOffset;
+	private ElfFileSection fileSection;
 
-	public ElfDynamicTable(BinaryReader reader, ElfHeader header,
-			long fileOffset, long addrOffset) throws IOException {
-
-		long oldptr = reader.getPointerIndex();
-
+	public ElfDynamicTable(ElfHeader header, ElfFileSection fileSection) throws IOException {
 		this.header = header;
-		this.fileOffset = fileOffset;
-		this.addrOffset = addrOffset;
+		this.fileSection = fileSection;
 
-		reader.setPointerIndex(fileOffset);
-
+		BinaryReader reader = fileSection.getReader();
 		// Collect set of all _DYNAMIC array tags specified in .dynamic section
 		while (true) {
 			ElfDynamic dyn = new ElfDynamic(reader, header);
@@ -60,8 +54,6 @@ public class ElfDynamicTable implements ElfFileSection {
 				break;
 			}
 		}
-
-		reader.setPointerIndex(oldptr);
 	}
 
 	/**
@@ -162,14 +154,8 @@ public class ElfDynamicTable implements ElfFileSection {
 		return getDynamicValue(type.value);
 	}
 
-	@Override
-	public long getFileOffset() {
-		return fileOffset;
-	}
-
-	@Override
-	public long getAddressOffset() {
-		return addrOffset;
+	public ElfFileSection getFileSection() {
+		return fileSection;
 	}
 
 	@Override
@@ -217,13 +203,11 @@ public class ElfDynamicTable implements ElfFileSection {
 		return dynamicTagEnum;
 	}
 
-	@Override
-	public long getLength() {
+	public long getFileSize() {
 		return dynamics.size() * getEntrySize();
 	}
 
-	@Override
-	public int getEntrySize() {
+	public long getEntrySize() {
 		return header.is32Bit() ? 8 : 16;
 	}
 

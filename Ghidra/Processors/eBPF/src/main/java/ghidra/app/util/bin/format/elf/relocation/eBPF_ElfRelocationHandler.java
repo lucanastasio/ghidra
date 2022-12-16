@@ -91,7 +91,7 @@ public class eBPF_ElfRelocationHandler extends ElfRelocationHandler {
                     if (memory.getInt(relocationAddress) == 0x1085) {
 
                         ElfSectionHeader sec = elfRelocationContext.getElfHeader().getSection(func_or_sec);
-                        long sec_start = program.getImageBase().getOffset() + sec.getAddress();
+                        long sec_start = program.getImageBase().getOffset() + sec.getVirtualAddress();
 
                         // getting call instruction offset (current imm)
                         int current_imm = memory.getInt(relocationAddress.add(0x4));

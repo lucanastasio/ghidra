@@ -15,9 +15,11 @@
  */
 package ghidra.app.util.bin.format.elf;
 
-import ghidra.app.util.bin.StructConverter;
+import ghidra.app.util.bin.BinaryReader;
+import ghidra.app.util.bin.ByteProvider;
+import ghidra.app.util.bin.format.MemoryLoadable;
 
-public interface ElfFileSection extends StructConverter {
+public interface ElfFileSection extends MemoryLoadable {
 	
 	/**
 	 * Preferred memory address offset where data should be loaded.
@@ -25,7 +27,7 @@ public interface ElfFileSection extends StructConverter {
 	 * applied, although will not reflect any change in the image base.
 	 * @return default memory address offset where data should be loaded
 	 */
-	public long getAddressOffset();
+	public long getVirtualAddress();
 
 	/**
 	 * Offset within file where section bytes are specified
@@ -37,12 +39,60 @@ public interface ElfFileSection extends StructConverter {
 	 * Length of file section in bytes
 	 * @return length of file section in bytes
 	 */
-	public long getLength();
-	
+	public long getFileSize();
+
+	/**
+	 * Length of memory section in bytes
+	 * @return length of memory section in bytes
+	 */
+	default public long getMemorySize() {
+		return getFileSize();
+	}
+
 	/**
 	 * Size of each structured entry in bytes
-	 * @return entry size or -1 if variable
+	 * @return entry size or 0 if variable
 	 */
-	public int getEntrySize();
+	default public long getEntrySize() {
+		return 0;
+	}
 
+	/**
+	 * Binary reader for this file section
+	 * @return Binary reader
+	 */
+	public BinaryReader getReader();
+
+	/**
+	 * Byte provider for this file section
+	 * @return Byte provider
+	 */
+	default public ByteProvider getByteProvider() {
+		return getReader().getByteProvider();
+	}
+
+	/**
+	 * Create a subsection from this file section
+	 * @param offset Offset of subsection from beginning of this file section
+	 * @param size Length of subsection
+	 * @return file subsection
+	 */
+	default public ElfFileSection subSection(long offset, long size) {
+		return subSection(offset, size, getEntrySize());
+	}
+
+	/**
+	 * Create a subsection from this file section
+	 * @param offset Offset of subsection from beginning of this file section
+	 * @param size Length of subsection
+	 * @param entrySize Entry size for this subsection
+	 * @return file subsection
+	 */
+	default public ElfFileSection subSection(long offset, long size, long entrySize) {
+		if (offset == 0 && size == getMemorySize() && entrySize == getEntrySize()) {
+			return this;
+		}
+
+		return new ElfFileSectionWrapper(this, offset, size, entrySize);
+	}
 }

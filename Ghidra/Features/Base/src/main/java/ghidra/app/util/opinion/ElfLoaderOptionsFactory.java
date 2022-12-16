@@ -15,6 +15,7 @@
  */
 package ghidra.app.util.opinion;
 
+import java.io.IOException;
 import java.util.List;
 
 import ghidra.app.util.Option;
@@ -51,7 +52,7 @@ public class ElfLoaderOptionsFactory {
 	}
 
 	static void addOptions(List<Option> options, ByteProvider provider, LoadSpec loadSpec)
-			throws ElfException, LanguageNotFoundException {
+			throws ElfException, IOException {
 
 		// NOTE: add-to-program is not supported
 
@@ -60,7 +61,7 @@ public class ElfLoaderOptionsFactory {
 
 		ElfHeader elf = new ElfHeader(provider, null);
 
-		long imageBase = elf.findImageBase();
+		long imageBase = elf.getImageBase();
 		if (imageBase == 0 && (elf.isRelocatable() || elf.isSharedObject())) {
 			imageBase = elf.is64Bit() ? IMAGE64_BASE_DEFAULT : IMAGE_BASE_DEFAULT;
 		}

@@ -83,7 +83,6 @@ public class ElfBinaryAnalysisCommand extends FlatProgramAPI
 			MemoryByteProvider.createDefaultAddressSpaceByteProvider(program, false);
 		try {
 			ElfHeader elf = new ElfHeader(provider, msg -> messages.appendMsg(msg));
-			elf.parse();
 
 			processElfHeader(elf, listing);
 			processProgramHeaders(elf, listing);
@@ -143,8 +142,8 @@ public class ElfBinaryAnalysisCommand extends FlatProgramAPI
 		for (ElfSectionHeader stringSection : stringSections) {
 			monitor.checkCanceled();
 			try {
-				Address addr = addr(stringSection.getOffset());
-				Address maxAddr = addr.addNoWrap(stringSection.getSize() - 1);
+				Address addr = addr(stringSection.getFileOffset());
+				Address maxAddr = addr.addNoWrap(stringSection.getMemorySize() - 1);
 
 				MemoryBlock block = memory.getBlock(addr);
 				if (block == null) {
@@ -188,15 +187,15 @@ public class ElfBinaryAnalysisCommand extends FlatProgramAPI
 
 			CodeUnit cu = listing.getCodeUnitAt(addr(offset));
 			cu.setComment(CodeUnit.PLATE_COMMENT,
-				"#" + i + ") " + name + " at 0x" + Long.toHexString(sections[i].getAddress()));
+				"#" + i + ") " + name + " at 0x" + Long.toHexString(sections[i].getVirtualAddress()));
 
 			if (sections[i].getType() == ElfSectionHeaderConstants.SHT_NOBITS ||
-				sections[i].getSize() == 0 || sections[i].isInvalidOffset()) {
+				sections[i].getMemorySize() == 0 || sections[i].isInvalidOffset()) {
 				continue;
 			}
 
-			Address dataStart = addr(sections[i].getOffset());
-			createFragment(name + "_DATA", dataStart, sections[i].getSize());
+			Address dataStart = addr(sections[i].getFileOffset());
+			createFragment(name + "_DATA", dataStart, sections[i].getMemorySize());
 
 			try {
 				createLabel(dataStart, name, true, SourceType.ANALYSIS);
@@ -207,7 +206,7 @@ public class ElfBinaryAnalysisCommand extends FlatProgramAPI
 
 			cu = listing.getCodeUnitAt(dataStart);
 			cu.setComment(CodeUnit.PRE_COMMENT, sections[i].getNameAsString() + " Size: 0x" +
-				Long.toHexString(sections[i].getSize()));
+				Long.toHexString(sections[i].getMemorySize()));
 		}
 	}
 
@@ -233,7 +232,7 @@ public class ElfBinaryAnalysisCommand extends FlatProgramAPI
 			Data d = array.getComponent(i);
 			d.setComment(CodeUnit.EOL_COMMENT, programHeaders[i].getComment());
 
-			Address addr = addr(programHeaders[i].getOffset());
+			Address addr = addr(programHeaders[i].getFileOffset());
 
 			createLabel(addr, programHeaders[i].getTypeAsString(), true, SourceType.ANALYSIS);
 		}
@@ -244,7 +243,7 @@ public class ElfBinaryAnalysisCommand extends FlatProgramAPI
 		for (ElfProgramHeader programHeader : elf.getProgramHeaders(
 			ElfProgramHeaderConstants.PT_INTERP)) {
 			monitor.checkCanceled();
-			long offset = programHeader.getOffset();
+			long offset = programHeader.getFileOffset();
 			if (offset == 0) {
 				Msg.warn(this, " Dynamic table appears to have been stripped from binary");
 				return;
@@ -270,7 +269,7 @@ public class ElfBinaryAnalysisCommand extends FlatProgramAPI
 		}
 
 		try {
-			Address addr = addr(dynamicTable.getFileOffset());
+			Address addr = addr(dynamicTable.getFileSection().getFileOffset());
 
 			program.getSymbolTable().createLabel(addr, "_DYNAMIC", SourceType.ANALYSIS);
 
@@ -324,7 +323,7 @@ public class ElfBinaryAnalysisCommand extends FlatProgramAPI
 			BinaryReader reader, Program program) {
 		ElfStringTable dynamicStringTable = elf.getDynamicStringTable();
 		if (dynamicStringTable != null) {
-			String str = dynamicStringTable.readString(reader, dynamic.getValue());
+			String str = dynamicStringTable.readString(dynamic.getValue());
 			if (str != null && str.length() != 0) {
 				data.setComment(CodeUnit.EOL_COMMENT, str);
 			}
@@ -362,7 +361,7 @@ public class ElfBinaryAnalysisCommand extends FlatProgramAPI
 		for (ElfSymbolTable symbolTable2 : symbolTables) {
 			monitor.checkCanceled();
 
-			Address symbolTableAddr = addr(symbolTable2.getFileOffset());
+			Address symbolTableAddr = addr(symbolTable2.getFileSection().getFileOffset());
 
 			try {
 				DataType symbolTableDT = symbolTable2.toDataType();
@@ -386,7 +385,7 @@ public class ElfBinaryAnalysisCommand extends FlatProgramAPI
 				}
 
 				try {
-					Address currAddr = symbolTableAddr.add(j * symbolTable2.getEntrySize());
+					Address currAddr = symbolTableAddr.add(j * symbolTable2.getFileSection().getEntrySize());
 					listing.setComment(currAddr, CodeUnit.EOL_COMMENT,
 						name + " at 0x" + Long.toHexString(symbols[j].getValue()));
 				}
@@ -407,14 +406,14 @@ public class ElfBinaryAnalysisCommand extends FlatProgramAPI
 		ElfRelocationTable[] relocationTables = elf.getRelocationTables();
 		for (ElfRelocationTable relocationTable : relocationTables) {
 			monitor.checkCanceled();
-			ElfSectionHeader relocationSection = relocationTable.getTableSectionHeader();
+			ElfFileSection relocationSection = relocationTable.getFileSection();
 			String relocSectionName = "<section-not-found>";
-			if (relocationSection != null) {
-				relocSectionName = relocationSection.getNameAsString();
+			if (relocationSection instanceof ElfSectionHeader) {
+				relocSectionName = ((ElfSectionHeader) relocationSection).getNameAsString();
 			}
 
 			//		elf.getSection(relocationTable.getFileOffset()); // may be null
-			Address relocationTableAddress = addr(relocationTable.getFileOffset());
+			Address relocationTableAddress = addr(relocationSection.getFileOffset());
 			try {
 				DataType dataType = relocationTable.toDataType();
 				if (dataType != null) {

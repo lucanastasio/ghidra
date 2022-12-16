@@ -100,7 +100,7 @@ public class ElfRelocation implements StructConverter {
 	 * @return ELF relocation object
 	 * @throws IOException if an IO or parse error occurs
 	 */
-	static ElfRelocation createElfRelocation(BinaryReader reader,
+	public static ElfRelocation createElfRelocation(BinaryReader reader,
 			ElfHeader elfHeader, int relocationIndex, boolean withAddend) throws IOException {
 		Class<? extends ElfRelocation> elfRelocationClazz = getElfRelocationClass(elfHeader);
 		ElfRelocation elfRelocation = getInstance(elfRelocationClazz);
@@ -120,7 +120,7 @@ public class ElfRelocation implements StructConverter {
 	 * @return ELF relocation object
 	 * @throws IOException if an IO or parse error occurs
 	 */
-	static ElfRelocation createElfRelocation(ElfHeader elfHeader,
+	public static ElfRelocation createElfRelocation(ElfHeader elfHeader,
 			int relocationIndex, boolean withAddend, long r_offset, long r_info, long r_addend)
 			throws IOException {
 		Class<? extends ElfRelocation> elfRelocationClazz = getElfRelocationClass(elfHeader);

@@ -19,8 +19,10 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import ghidra.app.util.bin.BinaryReader;
+import ghidra.app.util.bin.ByteProvider;
+import ghidra.app.util.bin.ByteProviderWrapper;
 import ghidra.app.util.bin.StructConverter;
-import ghidra.app.util.bin.format.MemoryLoadable;
+import ghidra.app.util.bin.UnlimitedByteProviderWrapper;
 import ghidra.program.model.data.*;
 import ghidra.util.StringUtilities;
 
@@ -62,7 +64,7 @@ import ghidra.util.StringUtilities;
  * </pre>
  */
 public class ElfProgramHeader
-		implements StructConverter, Comparable<ElfProgramHeader>, MemoryLoadable {
+		implements ElfFileSection, StructConverter, Comparable<ElfProgramHeader> {
 
 	protected ElfHeader header;
 
@@ -80,7 +82,6 @@ public class ElfProgramHeader
 	public ElfProgramHeader(BinaryReader reader, ElfHeader header)
 			throws IOException {
 		this.header = header;
-		this.reader = reader;
 
 		if (header.is32Bit()) {
 			p_type = reader.readNextInt();
@@ -103,14 +104,22 @@ public class ElfProgramHeader
 			p_align = reader.readNextLong();
 		}
 
-		if (p_memsz > p_filesz) {
-			//This case occurs when the data segment has both
-			//initialized and uninitialized sections.
-			//For example, the data program header may be comprised
-			//of ".data", ".dynamic", ".ctors", ".dtors", ".jcr", 
-			//and ".bss".
-			//TODO Err.warn(this, "Program Header: extra bytes");
+		ByteProvider provider;
+		if (p_type == ElfProgramHeaderConstants.PT_NULL) {
+			provider = ByteProvider.EMPTY_BYTEPROVIDER;
 		}
+		else {
+			provider = new UnlimitedByteProviderWrapper(reader.getByteProvider(), p_offset, p_filesz);
+			if (p_memsz > p_filesz) {
+				//This case occurs when the data segment has both
+				//initialized and uninitialized sections.
+				//For example, the data program header may be comprised
+				//of ".data", ".dynamic", ".ctors", ".dtors", ".jcr",
+				//and ".bss".
+				provider = new UnlimitedByteProviderWrapper(provider, 0, p_memsz);
+			}
+		}
+		this.reader = new BinaryReader(provider, reader.isLittleEndian());
 	}
 
 	/**
@@ -277,7 +286,7 @@ public class ElfProgramHeader
 	 * the first byte of the segment resides.
 	 * @return the offset from the beginning of the file
 	 */
-	public long getOffset() {
+	public long getFileOffset() {
 		return p_offset;
 	}
 

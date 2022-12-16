@@ -55,7 +55,6 @@ public class OatFileSystem extends GFileSystemBase {
 
 			if (magicMatch) {
 				ElfHeader elf = new ElfHeader(provider, null);
-				elf.parse();
 
 				ElfSymbolTable dynamicSymbolTable = elf.getDynamicSymbolTable();
 				if (dynamicSymbolTable != null) {
@@ -97,18 +96,17 @@ public class OatFileSystem extends GFileSystemBase {
 			monitor.setMessage("Parsing ELF header...");
 			monitor.incrementProgress(1);
 			ElfHeader elf = new ElfHeader(provider, null);
-			elf.parse();
 			monitor.incrementProgress(1);
 
 			ElfSectionHeader roDataSection = elf.getSection(ElfSectionHeaderConstants.dot_rodata);
 			if (roDataSection == null) {
 				throw new IOException("rodata section does not exist.");
 			}
-			baseOffset = roDataSection.getOffset();
+			baseOffset = roDataSection.getFileOffset();
 
 			monitor.setMessage("Parsing OAT header...");
 			ByteProviderWrapper wrapper =
-				new ByteProviderWrapper(provider, baseOffset, roDataSection.getSize());
+				new ByteProviderWrapper(provider, baseOffset, roDataSection.getFileSize());
 			BinaryReader reader = new BinaryReader(wrapper, elf.isLittleEndian());
 			OatHeader oatHeader = OatHeaderFactory.newOatHeader(reader);
 			OatHeaderFactory.parseOatHeader(oatHeader, null, reader, monitor, new MessageLog());

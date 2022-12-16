@@ -21,21 +21,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import ghidra.app.util.bin.BinaryReader;
+import ghidra.app.util.bin.StructConverter;
 import ghidra.program.model.data.*;
 import ghidra.util.exception.DuplicateNameException;
 
 /**
  * A container class to hold ELF symbols.
  */
-public class ElfSymbolTable implements ElfFileSection {
+public class ElfSymbolTable implements StructConverter {
 
 	private ElfStringTable stringTable;
-	private ElfSectionHeader symbolTableSection; // may be null
+	private ElfFileSection fileSection;
 	private int[] symbolSectionIndexTable;
-	private long fileOffset;
-	private long addrOffset;
-	private long length;
-	private long entrySize;
 	private int symbolCount;
 
 	private boolean is32bit;
@@ -45,13 +42,8 @@ public class ElfSymbolTable implements ElfFileSection {
 
 	/**
 	 * Construct and parse an Elf symbol table
-	 * @param reader byte reader
 	 * @param header elf header
-	 * @param symbolTableSection string table section header or null if associated with a dynamic table entry
-	 * @param fileOffset symbol table file offset
-	 * @param addrOffset memory address of symbol table (should already be adjusted for prelink)
-	 * @param length length of symbol table in bytes of -1 if unknown
-	 * @param entrySize size of each symbol entry in bytes
+	 * @param fileSection symbol table file section
 	 * @param stringTable associated string table
 	 * @param symbolSectionIndexTable extended symbol section index table (may be null, used when 
 	 *           symbol <code>st_shndx == SHN_XINDEX</code>).  See 
@@ -59,26 +51,21 @@ public class ElfSymbolTable implements ElfFileSection {
 	 * @param isDynamic true if symbol table is the dynamic symbol table
 	 * @throws IOException if an IO or parse error occurs
 	 */
-	public ElfSymbolTable(BinaryReader reader, ElfHeader header,
-			ElfSectionHeader symbolTableSection, long fileOffset, long addrOffset, long length,
-			long entrySize, ElfStringTable stringTable, int[] symbolSectionIndexTable,
+	public ElfSymbolTable(ElfHeader header, ElfFileSection fileSection,
+			ElfStringTable stringTable, int[] symbolSectionIndexTable,
 			boolean isDynamic) throws IOException {
 
-		this.symbolTableSection = symbolTableSection;
-		this.fileOffset = fileOffset;
-		this.addrOffset = addrOffset;
-		this.length = length;
-		this.entrySize = entrySize;
+		this.fileSection = fileSection;
 		this.stringTable = stringTable;
 		this.is32bit = header.is32Bit();
 		this.symbolSectionIndexTable = symbolSectionIndexTable;
 		this.isDynamic = isDynamic;
 
-		long ptr = reader.getPointerIndex();
-		reader.setPointerIndex(fileOffset);
+		BinaryReader reader = fileSection.getReader();
+		long entrySize = fileSection.getEntrySize();
 
 		List<ElfSymbol> symbolList = new ArrayList<>();
-		symbolCount = (int) (length / entrySize);
+		symbolCount = (int) (fileSection.getMemorySize() / entrySize);
 
 		long entryPos = reader.getPointerIndex();
 
@@ -101,8 +88,6 @@ public class ElfSymbolTable implements ElfFileSection {
 		for (ElfSymbol sym : sortedList) {
 			sym.initSymbolName(reader, stringTable);
 		}
-
-		reader.setPointerIndex(ptr);
 
 		symbols = new ElfSymbol[symbolList.size()];
 		symbolList.toArray(symbols);
@@ -258,33 +243,12 @@ public class ElfSymbolTable implements ElfFileSection {
 		return files;
 	}
 
-	@Override
-	public long getLength() {
-		return length;
-	}
-
-	@Override
-	public long getAddressOffset() {
-		return addrOffset;
-	}
-
 	/**
-	 * Get the section header which corresponds to this table, or null
-	 * if only associated with a dynamic table entry
-	 * @return symbol table section header or null
+	 * Get the file section which corresponds to this table
+	 * @return symbol table file section
 	 */
-	public ElfSectionHeader getTableSectionHeader() {
-		return symbolTableSection;
-	}
-
-	@Override
-	public long getFileOffset() {
-		return fileOffset;
-	}
-
-	@Override
-	public int getEntrySize() {
-		return (int) entrySize;
+	public ElfFileSection getFileSection() {
+		return fileSection;
 	}
 
 // Comments are repetitive - should refer to Elf documentation 
@@ -297,6 +261,8 @@ public class ElfSymbolTable implements ElfFileSection {
 
 	@Override
 	public DataType toDataType() throws DuplicateNameException {
+		long entrySize = fileSection.getEntrySize();
+
 		String dtName = is32bit ? "Elf32_Sym" : "Elf64_Sym";
 		Structure struct = new StructureDataType(new CategoryPath("/ELF"), dtName, 0);
 		struct.add(DWORD, "st_name", null);
@@ -314,11 +280,11 @@ public class ElfSymbolTable implements ElfFileSection {
 			struct.add(QWORD, "st_value", null);
 			struct.add(QWORD, "st_size", null);
 		}
-		int sizeRemaining = getEntrySize() - struct.getLength();
+		int sizeRemaining = (int) entrySize - struct.getLength();
 		if (sizeRemaining > 0) {
 			struct.add(new ArrayDataType(ByteDataType.dataType, sizeRemaining, 1), "st_unknown",
 				null);
 		}
-		return new ArrayDataType(struct, (int) (length / entrySize), (int) entrySize);
+		return new ArrayDataType(struct, (int) (fileSection.getMemorySize() / entrySize), (int) entrySize);
 	}
 }

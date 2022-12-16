@@ -16,88 +16,77 @@
 package ghidra.app.util.bin.format.elf;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import ghidra.app.util.bin.BinaryReader;
+import ghidra.app.util.bin.ByteProvider;
+import ghidra.app.util.bin.MutableByteProvider;
+import ghidra.app.util.bin.StructConverter;
 import ghidra.program.model.data.DataType;
 import ghidra.util.exception.DuplicateNameException;
 
-public class ElfStringTable implements ElfFileSection {
+public class ElfStringTable implements StructConverter {
 
 	private ElfHeader header;
 
-	private ElfSectionHeader stringTableSection; // may be null
-	private long fileOffset;
-	private long addrOffset;
-	private long length;
+	private ElfFileSection fileSection;
+	private BinaryReader reader;
 
 	/**
 	 * Construct and parse an Elf string table
 	 * @param header elf header
-	 * @param stringTableSection string table section header or null if associated with a dynamic table entry
-	 * @param fileOffset symbol table file offset
-	 * @param addrOffset memory address of symbol table (should already be adjusted for prelink)
-	 * @param length length of symbol table in bytes of -1 if unknown
+	 * @param fileSection string table file section
 	 */
-	public ElfStringTable(ElfHeader header, ElfSectionHeader stringTableSection, long fileOffset,
-			long addrOffset, long length) {
+	public ElfStringTable(ElfHeader header, ElfFileSection fileSection) {
 		this.header = header;
-		this.stringTableSection = stringTableSection;
-		this.fileOffset = fileOffset;
-		this.addrOffset = addrOffset;
-		this.length = length;
+		this.fileSection = fileSection;
+		this.reader = fileSection.getReader();
 	}
 
 	/**
 	 * Read string from table at specified relative table offset
-	 * @param reader byte reader
 	 * @param stringOffset table relative string offset
 	 * @return string or null on error
 	 */
-	public String readString(BinaryReader reader, long stringOffset) {
-		if (fileOffset < 0) {
-			return null;
-		}
+	public String readString(long stringOffset) {
 		try {
-			if (stringOffset >= length) {
+			if (stringOffset >= fileSection.getMemorySize()) {
 				throw new IOException("String read beyond table bounds");
 			}
-			return reader.readUtf8String(fileOffset + stringOffset).trim();
+			return reader.readUtf8String(stringOffset).trim();
 		}
 		catch (IOException e) {
 			header.logError(
 				"Failed to read Elf String at offset 0x" + Long.toHexString(stringOffset) +
-					" within String Table at offset 0x" + Long.toHexString(fileOffset));
+					" within String Table at offset 0x" + Long.toHexString(fileSection.getFileOffset()));
 		}
 		return null;
 	}
 
-	@Override
-	public long getAddressOffset() {
-		return header.adjustAddressForPrelink(addrOffset);
+	/**
+	 * Append a string at the end of the string table
+	 * @param str String to append
+	 * @return index of string
+	 */
+	public int add(String str) throws IOException {
+		ByteProvider byteProvider = reader.getByteProvider();
+		if (!(byteProvider instanceof MutableByteProvider)) {
+			throw new IOException("Backing byte provider isn't mutable");
+		}
+
+		MutableByteProvider mutableByteProvider = (MutableByteProvider) byteProvider;
+		int strIndex = (int) mutableByteProvider.length();
+		mutableByteProvider.writeBytes(strIndex, StandardCharsets.UTF_8.encode(str + '\0').array());
+
+		return strIndex;
 	}
 
 	/**
-	 * Get section header which corresponds to this table, or null
-	 * if only associated with a dynamic table entry
-	 * @return string table section header or null
+	 * Get file section which corresponds to this table
+	 * @return string table section section
 	 */
-	public ElfSectionHeader getTableSectionHeader() {
-		return stringTableSection;
-	}
-
-	@Override
-	public long getFileOffset() {
-		return fileOffset;
-	}
-
-	@Override
-	public long getLength() {
-		return length;
-	}
-
-	@Override
-	public int getEntrySize() {
-		return -1;
+	public ElfFileSection getFileSection() {
+		return fileSection;
 	}
 
 	@Override

@@ -53,7 +53,7 @@ public class ReferenceTagProcessor extends TagProcessor {
 			return false;
 		}
 
-		tagType = tagType.toLowerCase();
+		tagType = tagType.toLowerCase(Locale.ROOT);
 		return "a".equals(tagType) || "img".equals(tagType) || "title".equals(tagType) ||
 			"/title".equals(tagType) || "link".equals(tagType);
 	}
@@ -62,7 +62,7 @@ public class ReferenceTagProcessor extends TagProcessor {
 	public void processTag(String tagType, LinkedHashMap<String, String> tagAttributes, Path file,
 			int lineNum) throws IOException {
 
-		tagType = tagType.toLowerCase();
+		tagType = tagType.toLowerCase(Locale.ROOT);
 		if ("a".equals(tagType)) {
 			if (tagAttributes.containsKey("href")) {
 				try {

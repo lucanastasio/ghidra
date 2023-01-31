@@ -18,6 +18,7 @@ package ghidra.util;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Locale;
 
 /**
  * Class for web color support. This class defines many of the colors used by html. This class
@@ -239,7 +240,7 @@ public abstract class WebColors {
 	}
 
 	private static Color registerColor(String name, Color color) {
-		nameToColorMap.put(name.toLowerCase(), color);
+		nameToColorMap.put(name.toLowerCase(Locale.ROOT), color);
 		colorToNameMap.put(color.getRGB(), name);
 		return color;
 	}
@@ -266,8 +267,8 @@ public abstract class WebColors {
 	 * @return a color for the given string or null
 	 */
 	public static Color getColor(String colorString) {
-		String value = colorString.trim().toLowerCase();
-		Color color = nameToColorMap.get(value.toLowerCase());
+		String value = colorString.trim().toLowerCase(Locale.ROOT);
+		Color color = nameToColorMap.get(value.toLowerCase(Locale.ROOT)); // Locale not necessary, but nice to have
 		if (color != null) {
 			return color;
 		}

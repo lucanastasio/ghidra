@@ -18,6 +18,7 @@ package ghidra.util;
 import static org.junit.Assert.*;
 
 import java.awt.Color;
+import java.util.Locale;
 
 import org.junit.Test;
 
@@ -51,6 +52,15 @@ public class WebColorsTest {
 		assertEquals(new Color(0x80102030, true), WebColors.getColor("rgba(16, 32, 48, 0.5)"));
 
 		assertNull(WebColors.getColor("asdfasdfas"));
+
+		// The Turkey Test
+		Locale defaultLocale = Locale.getDefault();
+		Locale.setDefault(new Locale("tr", "TR"));
+		assertEquals(WebColors.INDIGO, WebColors.getColor("INDIGO"));
+		assertEquals(WebColors.INDIGO, WebColors.getColor("indigo"));
+		assertNull(WebColors.getColor("İNDİGO"));
+		assertNull(WebColors.getColor("ındıgo"));
+		Locale.setDefault(defaultLocale);
 	}
 
 	@Test

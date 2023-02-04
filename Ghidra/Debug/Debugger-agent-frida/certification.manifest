@@ -6,6 +6,7 @@
 FridaNotes.txt||GHIDRA||||END|
 Module.manifest||GHIDRA||||END|
 build.gradle||GHIDRA||||END|
+unsign_jar.sh||GHIDRA||||END|
 data/scripts/onAccess.js||GHIDRA||||END|
 data/scripts/onAccessExt.js||GHIDRA||||END|
 data/scripts/onCallSummary.js||GHIDRA||||END|

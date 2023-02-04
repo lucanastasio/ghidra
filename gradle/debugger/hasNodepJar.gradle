@@ -53,7 +53,7 @@ task nodepJar(type: Jar) {
 	inputs.file(file(jar.archivePath))
 	dependsOn(configureNodepJar)
 	dependsOn(jar)
-
+	duplicatesStrategy = 'exclude'
 	archiveAppendix = 'nodep'
 
 	from(zipTree(jar.archivePath))

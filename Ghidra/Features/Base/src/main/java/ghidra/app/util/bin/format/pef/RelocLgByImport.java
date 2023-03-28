@@ -32,7 +32,7 @@ import java.util.List;
 public class RelocLgByImport extends Relocation {
 	private int index;
 
-	RelocLgByImport(BinaryReader reader) throws IOException {
+	RelocLgByImport(BinaryReader reader, ParseState parseState) throws IOException {
 		int value = reader.readNextShort() & 0xffff;
 
 		opcode  =  (value & 0xfc00) >> 10;

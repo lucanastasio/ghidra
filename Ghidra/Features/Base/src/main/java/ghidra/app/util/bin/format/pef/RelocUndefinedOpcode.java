@@ -25,7 +25,7 @@ import java.io.IOException;
 
 public class RelocUndefinedOpcode extends Relocation {
 
-	RelocUndefinedOpcode(BinaryReader reader) throws IOException {
+	RelocUndefinedOpcode(BinaryReader reader, ParseState parseState) throws IOException {
 		int value = reader.readNextShort() & 0xffff;
 
 		opcode = ((value & 0xff) >> 8) & 0xff;

@@ -36,12 +36,14 @@ public class RelocationFactory {
 		RelocValueGroup.class,
 	};
 
+	private static ParseState parseState = new ParseState();
+
 	public static Relocation getRelocation(BinaryReader reader) {
 		long index = reader.getPointerIndex();
 		for (Class<?> relocationClass : relocationClasses) {
 			try {
-				Constructor<?> constructor = relocationClass.getDeclaredConstructor(new Class[]{BinaryReader.class});
-				Relocation relocation = (Relocation)constructor.newInstance(new Object[]{reader});
+				Constructor<?> constructor = relocationClass.getDeclaredConstructor(new Class[]{BinaryReader.class, ParseState.class});
+				Relocation relocation = (Relocation)constructor.newInstance(new Object[]{reader, parseState});
 				if (relocation.isMatch()) {
 					return relocation;
 				}

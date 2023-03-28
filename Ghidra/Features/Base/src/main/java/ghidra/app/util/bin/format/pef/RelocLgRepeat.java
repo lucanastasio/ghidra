@@ -28,19 +28,36 @@ import java.io.IOException;
 public class RelocLgRepeat extends Relocation {
 	private int chunkCount;
 	private int repeatCount;
+	private BinaryReader reader;
+	private ParseState parseState;
 
-	RelocLgRepeat(BinaryReader reader) throws IOException {
+	RelocLgRepeat(BinaryReader reader, ParseState parseState) throws IOException {
 		int value = reader.readNextShort() & 0xffff;
 
 		opcode       =  (value & 0xfc00) >> 10;
-		chunkCount   =  (value & 0x0330) >>  6;
+		chunkCount   =  (value & 0x03c0) >>  6;
 		repeatCount  =  (value & 0x003f) << 16;
 		repeatCount |=  reader.readNextShort() & 0xffff;
+
+		this.reader = reader;
+		this.parseState = parseState;
 	}
 
 	@Override
 	public boolean isMatch() {
-		return opcode == 0x2c;
+		if (opcode != 0x2c)
+			return false;
+
+		parseState.incrementLoopCount(reader.getPointerIndex() - 4);
+		if (parseState.getLoopCount() == repeatCount) {
+			/* done looping */
+			parseState.clearLoopCount();
+		} else {
+			/* go back two chunks for this command plus the number of chunks specified */
+			reader.setPointerIndex(reader.getPointerIndex() - 4 - (2 * (chunkCount + 1)));
+		}
+
+		return true;
 	}
 
 	@Override
@@ -53,13 +70,12 @@ public class RelocLgRepeat extends Relocation {
 	}
 
 	public int getRepeatCount() {
-		return repeatCount + 1;
+		return repeatCount;
 	}
 
 	@Override
 	public void apply(ImportStateCache importState, RelocationState relocState, 
 			ContainerHeader header, Program program, MessageLog log, TaskMonitor monitor) {
-		
-		throw new RuntimeException("Unhandled relocation: RelocLgRepeat");
+		/* nothing to do */
 	}
 }

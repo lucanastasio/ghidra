@@ -43,7 +43,7 @@ public class RelocValueGroup extends Relocation {
 	private int subopcode;
 	private int runLength;
 
-	RelocValueGroup(BinaryReader reader) throws IOException {
+	RelocValueGroup(BinaryReader reader, ParseState parseState) throws IOException {
 		int value = reader.readNextShort() & 0xffff;
 
 		opcode    = (value & 0xe000) >> 13;

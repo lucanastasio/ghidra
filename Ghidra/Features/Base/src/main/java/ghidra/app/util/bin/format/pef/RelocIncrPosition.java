@@ -28,7 +28,7 @@ import ghidra.util.task.TaskMonitor;
 public class RelocIncrPosition extends Relocation {
 	private int offset;
 
-	RelocIncrPosition(BinaryReader reader) throws IOException {
+	RelocIncrPosition(BinaryReader reader, ParseState parseState) throws IOException {
 		int value = reader.readNextShort() & 0xffff;
 
 		opcode = (value & 0xf000) >> 12;

@@ -28,18 +28,35 @@ import java.io.IOException;
 public class RelocSmRepeat extends Relocation {
 	private int chunks;
 	private int repeatCount;
+	private BinaryReader reader;
+	private ParseState parseState;
 
-	RelocSmRepeat(BinaryReader reader) throws IOException {
+	RelocSmRepeat(BinaryReader reader, ParseState parseState) throws IOException {
 		int value   = reader.readNextShort() & 0xffff;
 
 		opcode      = (value & 0xf000) >> 12;
 		chunks      = (value & 0x0f00) >>  8;
 		repeatCount = (value & 0x00ff);
+
+		this.reader = reader;
+		this.parseState = parseState;
 	}
 
 	@Override
 	public boolean isMatch() {
-		return opcode == 0x9;
+		if (opcode != 0x9)
+			return false;
+
+		parseState.incrementLoopCount(reader.getPointerIndex() - 2);
+		if (parseState.getLoopCount() == repeatCount + 1) {
+			/* done looping */
+			parseState.clearLoopCount();
+		} else {
+			/* go back one chunk for this command plus the number of chunks specified */
+			reader.setPointerIndex(reader.getPointerIndex() - 2 - (2 * (chunks + 1)));
+		}
+
+		return true;
 	}
 
 	public int getChunks() {
@@ -53,7 +70,6 @@ public class RelocSmRepeat extends Relocation {
 	@Override
 	public void apply(ImportStateCache importState, RelocationState relocState, 
 			ContainerHeader header, Program program, MessageLog log, TaskMonitor monitor) {
-
-		throw new RuntimeException("Unhandled relocation: RelocSmRepeat");
+		/* nothing to do */
 	}
 }

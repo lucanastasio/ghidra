@@ -29,7 +29,7 @@ public class RelocBySectDWithSkip extends Relocation {
 	private int skipCount;
 	private int relocCount;
 
-	RelocBySectDWithSkip(BinaryReader reader) throws IOException {
+	RelocBySectDWithSkip(BinaryReader reader, ParseState parseState) throws IOException {
 		int value  = reader.readNextShort() & 0xffff;
 
 		opcode     = ((value & 0xc000) >> 14) & 0x3;

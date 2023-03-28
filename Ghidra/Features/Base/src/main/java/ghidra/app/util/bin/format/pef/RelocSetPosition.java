@@ -29,7 +29,7 @@ import java.io.IOException;
 public class RelocSetPosition extends Relocation {
 	private int offset;
 
-	RelocSetPosition(BinaryReader reader) throws IOException {
+	RelocSetPosition(BinaryReader reader, ParseState parseState) throws IOException {
 		int value = reader.readNextShort() & 0xffff;
 
 		opcode   = ((value & 0xfc00) >> 10) & 0x3f;

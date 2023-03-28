@@ -61,7 +61,7 @@ public class RelocByIndexGroup extends Relocation {
 	private int subopcode;
 	private int index;
 
-	RelocByIndexGroup(BinaryReader reader) throws IOException {
+	RelocByIndexGroup(BinaryReader reader, ParseState parseState) throws IOException {
 		int value = reader.readNextShort() & 0xffff;
 
 		opcode    =  (value & 0xe000) >> 13;

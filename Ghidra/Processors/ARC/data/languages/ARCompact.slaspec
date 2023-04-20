@@ -1,6 +1,6 @@
 # sleigh specification file for ARCompact
 
-define endian=little;
+define endian=big;
 define alignment=2;
 
 define space ram type=ram_space size=4 default;
@@ -128,56 +128,108 @@ define token instr16 (16)
 ;
 
 # Long opcodes (major opcode between 0 and 0x0b)
-define token instr32 (32)
-  l_major_opcode = (11, 15)
-  l_rb_low_0 = (8, 10)
-  l_rb_low_1 = (8, 10)
-  l_rb_low_2 = (8, 10)
-  l_rb_low_3 = (8, 10)
-  l_rb_low_4 = (8, 10)
-  l_rb_low_5 = (8, 10)
-  l_rb_low_6 = (8, 10)
-  l_rb_low_7 = (8, 10)
-  l_op_format = (6, 7)
-  l_op4_ld_addr_mode = (6, 7)
-  l_op4_ld_opcode = (3, 5)
-  l_s19_low9 = (2, 10)
-  l_s20_low10 = (1, 10)
-  l_s_low_b17b23 = (1, 7)
-  l_op4_ld_data_size = (1, 2)
-  l_sub_opcode_b17 = (1, 1)
-  l_s9_low8 = (0, 7)
-  l_sub_opcode6 = (0, 5)
-  l_sub_opcode_b16 = (0, 0)
-  l_op4_ld_sign_ext = (0, 0)
+# define token instr32 (32)
+#   l_major_opcode = (11, 15)
+#   l_rb_low_0 = (8, 10)
+#   l_rb_low_1 = (8, 10)
+#   l_rb_low_2 = (8, 10)
+#   l_rb_low_3 = (8, 10)
+#   l_rb_low_4 = (8, 10)
+#   l_rb_low_5 = (8, 10)
+#   l_rb_low_6 = (8, 10)
+#   l_rb_low_7 = (8, 10)
+#   l_op_format = (6, 7)
+#   l_op4_ld_addr_mode = (6, 7)
+#   l_op4_ld_opcode = (3, 5)
+#   l_s19_low9 = (2, 10)
+#   l_s20_low10 = (1, 10)
+#   l_s_low_b17b23 = (1, 7)
+#   l_op4_ld_data_size = (1, 2)
+#   l_sub_opcode_b17 = (1, 1)
+#   l_s9_low8 = (0, 7)
+#   l_sub_opcode6 = (0, 5)
+#   l_sub_opcode_b16 = (0, 0)
+#   l_op4_ld_sign_ext = (0, 0)
 
-  l_flag = (31, 31)
-  l_op4_ld_direct = (31, 31)
-  l_s9_highbit = (31, 31) signed
-  l_rb_high = (28, 30)
-  l_ld_direct = (27, 27)
-  l_ld_addr_mode = (25, 26)
-  l_ld_data_size = (23, 24)
-  l_s23_middle10 = (22, 31)
-  l_s24_middle10 = (22, 31)
-  l_s19_high10 = (22, 31) signed
-  l_s20_high10 = (22, 31) signed
-  l_rc_raw = (22, 27)
-  l_u6 = (22, 27)
-  l_ld_sign_ext = (22, 22)
-  l_m = (21, 21)
-  l_delay_slot_b5 = (21, 21)
-  l_st_direct = (21, 21)
-  l_cond_high_bit = (20, 20)
-  l_sub_opcode_b4 = (20, 20)
-  l_st_addr_mode = (19, 20)
-  l_st_data_size = (17, 18)
-  l_ra_raw = (16, 21)
-  l_s12_high = (16, 21) signed
-  l_cond_bits = (16, 20)
-  l_sub_opcode_b0b1b2b3 = (16, 19)
-  l_s23_high = (16, 19) signed
-  l_s24_high = (16, 19) signed
+#   l_flag = (31, 31)
+#   l_op4_ld_direct = (31, 31)
+#   l_s9_highbit = (31, 31) signed
+#   l_rb_high = (28, 30)
+#   l_ld_direct = (27, 27)
+#   l_ld_addr_mode = (25, 26)
+#   l_ld_data_size = (23, 24)
+#   l_s23_middle10 = (22, 31)
+#   l_s24_middle10 = (22, 31)
+#   l_s19_high10 = (22, 31) signed
+#   l_s20_high10 = (22, 31) signed
+#   l_rc_raw = (22, 27)
+#   l_u6 = (22, 27)
+#   l_ld_sign_ext = (22, 22)
+#   l_m = (21, 21)
+#   l_delay_slot_b5 = (21, 21)
+#   l_st_direct = (21, 21)
+#   l_cond_high_bit = (20, 20)
+#   l_sub_opcode_b4 = (20, 20)
+#   l_st_addr_mode = (19, 20)
+#   l_st_data_size = (17, 18)
+#   l_ra_raw = (16, 21)
+#   l_s12_high = (16, 21) signed
+#   l_cond_bits = (16, 20)
+#   l_sub_opcode_b0b1b2b3 = (16, 19)
+#   l_s23_high = (16, 19) signed
+#   l_s24_high = (16, 19) signed
+# ;
+
+define token instr32 (32)
+  l_major_opcode = (27, 31) # +16
+  l_rb_low_0 = (24, 26)
+  l_rb_low_1 = (24, 26)
+  l_rb_low_2 = (24, 26)
+  l_rb_low_3 = (24, 26)
+  l_rb_low_4 = (24, 26)
+  l_rb_low_5 = (24, 26)
+  l_rb_low_6 = (24, 26)
+  l_rb_low_7 = (24, 26)
+  l_op_format = (22, 23)
+  l_op4_ld_addr_mode = (22, 23)
+  l_op4_ld_opcode = (19, 21)
+  l_s19_low9 = (18, 26)
+  l_s20_low10 = (17, 26)
+  l_s_low_b17b23 = (17, 23)
+  l_op4_ld_data_size = (17, 18)
+  l_sub_opcode_b17 = (17, 17)
+  l_s9_low8 = (16, 23)
+  l_sub_opcode6 = (16, 21)
+  l_sub_opcode_b16 = (16, 16)
+  l_op4_ld_sign_ext = (16, 16)
+
+  l_flag = (15, 15) # -16
+  l_op4_ld_direct = (15, 15)
+  l_s9_highbit = (15, 15) signed
+  l_rb_high = (12, 14)
+  l_ld_direct = (11, 11)
+  l_ld_addr_mode = (9, 10)
+  l_ld_data_size = (7, 8)
+  l_s23_middle10 = (6, 15)
+  l_s24_middle10 = (6, 15)
+  l_s19_high10 = (6, 15) signed
+  l_s20_high10 = (6, 15) signed
+  l_rc_raw = (6, 11)
+  l_u6 = (6, 11)
+  l_ld_sign_ext = (6, 6)
+  l_m = (5, 5)
+  l_delay_slot_b5 = (5, 5)
+  l_st_direct = (5, 5)
+  l_cond_high_bit = (4, 4)
+  l_sub_opcode_b4 = (4, 4)
+  l_st_addr_mode = (3, 4)
+  l_st_data_size = (1, 2)
+  l_ra_raw = (0, 5)
+  l_s12_high = (0, 5) signed
+  l_cond_bits = (0, 4)
+  l_sub_opcode_b0b1b2b3 = (0, 3)
+  l_s23_high = (0, 3) signed
+  l_s24_high = (0, 3) signed
 ;
 
 define token limm_low_token (16) limm_low = (0, 15);
@@ -219,7 +271,9 @@ l_rb: l_rb_low_6 is l_rb_high=6 & l_rb_low_6 { export l_rb_low_6; }
 l_rb: l_rb_low_7 is l_rb_high=7 & l_rb_low_7 { export l_rb_low_7; }
 
 # Combine and shift immediate values
-limm: limm is limm_high ; limm_low [ limm = (limm_high << 16) + limm_low; ] { export *[const]:4 limm; }
+#limm: limm is limm_high ; limm_low [ limm = (limm_low << 16) + limm_high; ] { export *[const]:4 limm; }
+
+define token limm_token (32) limm = (0, 31);
 
 s_u5shift1: value is s_u5 [ value=s_u5 << 1; ] { export *[const]:4 value; }
 s_u5shift2: value is s_u5 [ value=s_u5 << 2; ] { export *[const]:4 value; }
